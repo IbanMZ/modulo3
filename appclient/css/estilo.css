@@ -1,0 +1,15 @@
+main{
+    max-width: 1024px;
+    width: auto;
+    font-family: Helvetica, Arial, sans-serif;
+}
+h1{
+    font-weight: bold;
+    font-size: xx-large;
+    color: white;
+    background-color: darkslategray;
+
+}
+h2{
+    font-size: large;
+}
