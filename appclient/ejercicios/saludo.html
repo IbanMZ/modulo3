@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="Buscador">
+        <h3>Introduce nombre</h3>           
+        <input type="search" id="iNombre" placeholder="Escribe nombre">
+        <button id="boton">Aceptar</button>
+    </div> 
+    <p id="texto">""</p>
+    
+    <script>
+        //relacionamos elBotonNombre con el boton y le añadimos un listener con una funcion
+        let elBotonNombre = document.getElementById('boton');
+        elBotonNombre.addEventListener('click', ensenar );
+
+        //funcion para guardar el texto del input y ejecucion
+       function ensenar(event){
+            console.debug(event);
+            var nombre = document.getElementById("iNombre").value;
+            console.debug(nombre);
+            if(nombre){
+                document.getElementById('texto').innerHTML = 'Hola ' + nombre;
+            }else{
+                alert('Introduce un nombre');
+            }    
+        }
+    </script>
+</body>
+</html>
