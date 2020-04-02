@@ -6,6 +6,58 @@
     <title>Listado</title>
 </head>
 <body>
-    
+    <h1>Listado de peliculas</h1>
+
+    <ul id="listaPeliculas">
+        
+    </ul>
+
+
+    <script>
+    //Json listado peliculas    
+    let listadopeliculas = {
+             "peliculas": [{
+                "id": 1,
+   
+                "nombre": "El sexto sentido",
+   
+                "director": "M. Night Shyamalan",
+   
+                "clasificacion": "Drama"
+               },
+                {
+                "id": 2,
+   
+                "nombre": "Pulp Fiction",
+   
+                "director": "Tarantino",
+   
+                "clasificacion": "Acción"
+                },
+                {   
+                "id": 3,
+   
+                "nombre": "Todo Sobre Mi Madre",
+   
+                "director": "Almodobar",
+   
+                "clasificacion": "Drama"
+                }   
+        ]
+    }
+
+    //Scarlo por pantalla
+    for(let i=0; i < listadopeliculas.peliculas.length; i++ ){
+            let pelicula = listadopeliculas.peliculas[i];
+            console.debug( pelicula.nombre);
+            
+            let insertarpelicula = document.getElementById('listaPeliculas');
+            
+            insertarpelicula.innerHTML += '<li>Id = ' + pelicula.id + '</li>';
+            insertarpelicula.innerHTML += '<li>Nombre = ' + pelicula.nombre + '</li>';
+            insertarpelicula.innerHTML += '<li>Director = ' + pelicula.director + '</li>';
+            insertarpelicula.innerHTML += '<li>Clasificacion' + pelicula.clasificacion  + '</li>';
+        }
+    </script>
 </body>
 </html>
