@@ -20,17 +20,23 @@
             </select>
             <input type="search" id="inombre" placeholder="Escribe nombre">
         </div>
-        <ol>
-            <li><img src="img/avatar1.png">Alumno1</li>
-            <li><img src="img/avatar2.png">Alumno2</li>
-            <li><img src="img/avatar3.png">Alumno3</li>
-            <li><img src="img/avatar4.png">Alumno4</li>
-            <li><img src="img/avatar5.png">Alumno5</li>
-            <li><img src="img/avatar6.png">Alumno6</li>
-            <li><img src="img/avatar7.png">Alumno7</li>
-        </ol>
+        <ul id="listaAlumnos">
+            <li >Cargando...</li>
+            
+        </ul>
 
     </main>
-   <script src="js/main.js"></script>
+    <script>
+            
+            let insertarlista = document.getElementById('listaAlumnos');
+            insertarlista.innerHTML = '';
+            insertarlista.innerHTML = `<li><img src="img/avatar1.png">Alumno1</li>`;
+            console.log('Mensaje de prueba');
+            insertarlista.innerHTML += '<li><img src="img/avatar2.png">Alumno2</li>';
+            insertarlista.innerHTML += '<li><img src="img/avatar3.png">Alumno3</li>';
+            insertarlista.innerHTML += '<li><img src="img/avatar4.png">Alumno4</li>';
+            
+    </script>
+   <!--<script src="js/main.js"></script>-->
 </body>
 </html>
