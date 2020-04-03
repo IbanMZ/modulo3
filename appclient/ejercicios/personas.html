@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personas</title>
+</head>
+<body>
+    <main>
+    <h1>Listado personas</h1>
+    <table id="listapersonas">
+        <tr><td>Cargando...</td></tr>
+    </table>  
+
+    <script>
+        //Ajax
+        //Listener, para que primero cargue todo y luego empieze a ejecutar scripts
+        window.addEventListener('load', init() );
+        //Dentro de la funcion meteremos nuestro script
+        function init(){
+          console.debug('Document Load and Ready');
+          //Los datos estan en esa direccion, y le pedimos 10 resultados
+          const url = 'https://randomuser.me/api/?results=10';
+           //creamos un objeto para realizar la REQUEST con ajax
+           var xhttp = new XMLHttpRequest();
+           //Los datos solo sep odran manipular dentro de la funcion, porque es asincrona
+           xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    //Comprobamos que ha llegado
+                    console.debug( this.responseText );
+
+                    // parsear texto a Json, y lo comprobamos
+                    const jsonData = JSON.parse(this.responseText);    
+                    console.debug( jsonData );
+
+                    // array con personas
+                    const personas = jsonData.results;
+                  
+                    
+                    let lista = document.getElementById('listapersonas');
+                    lista.innerHTML = '';
+                    lista.innerHTML = '<tr><th>Foto</th><th>Tratamiento</th><th>Nombre</th><th>Apellido</th><th>Genero</th><th>Numero</th></tr>';
+
+                    for(let i=0; i < personas.length; i++ ){
+                        const persona = personas[i];
+                        console.debug( persona.name.first );
+                        
+                        lista.innerHTML += `<tr><td><img src="${persona.picture.thumbnail}" alt="avatar"></td>
+                                                <td>${persona.name.title}</td><td>${persona.name.first}</td><td>${persona.name.last}</td>
+                                                <td>${persona.gender}</td> <td>${persona.cell}</td></tr>
+                                            `;
+
+                    }// for
+                    
+                }// his.readyState == 4 && this.status == 200
+
+            };// onreadystatechange
+
+            // preparamos la petición GET
+            xhttp.open("GET", url , true);
+            // enviar la peticion asincrona, meter el codigo en onreadystatechange
+            xhttp.send();
+
+
+
+
+        }        
+    </script>
+</body>
+</html>
