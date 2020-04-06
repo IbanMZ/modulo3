@@ -35,9 +35,23 @@
     }
 
     ];
+    //Ejemplo Map con EM6
+    const horas = tasks.map( (el) => el.duration);
+        console.info('Array de horas con ES6 %o ', horas);
+    //Ejemplo filter
+    const duraMedia = horas.filter((el) => el <200);    
+    console.info('Menos de 200h %o ', duraMedia);
+    //Extra, he escrito la sintaxis de filter pero l+en vez de filter le he dejado map,
+        // y al parecer comprueba cada balor y te dice si es true o false
+    const duraMediaBoolean = horas.map((el) => el <200);    
+    console.info('Menos de 200h? true false %o ', duraMediaBoolean);
+    //Reduce
+    const sumHoras = tasks.map(el => el.duration).reduce((previous, current) => {
+        return previous + current;
+    });
+    console.info('Suma de horas = %o ', sumHoras);
 
-    
-    </script>
-    
+   
+    </script>    
 </body>
 </html>
