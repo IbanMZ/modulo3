@@ -5,12 +5,7 @@ window.addEventListener('load', init() );
     function init(){
          //Segunda parte
          console.debug('Llega al script');
-         //Prueba primer boton, ELbOTONnOMBRE QUEDA NULL Y LA APLICACION PETA  
-         let elBotonNombre = document.getElementById("pepe");
-        /* elBotonNombre.addEventListener('click', ensenar );
-         function ensenar(event){
-             console.debug('Llega a la funcion');
-         }*/
+        
    
         console.debug('Document 2 Load and Ready');
     //En teoria sacara a Bulbasaur

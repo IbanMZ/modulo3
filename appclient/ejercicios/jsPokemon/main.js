@@ -31,10 +31,10 @@ window.addEventListener('load', init() );
                         const pokemon = pokemons[i];
                         
                         lista.innerHTML += `<button type="button" class="list-group-item 
-                            list-group-item-action" id =${i}>${pokemon.name}</button>`;
+                            list-group-item-action" onclick="funciondetalle('${i +1}')">${pokemon.name}</button>`;
                 
                     }// for
-                    lista.innerHTML += `<button id ="pepe">pepe</button>`;
+                   
                 }// his.readyState == 4 && this.status == 200
                 
                 
@@ -42,5 +42,14 @@ window.addEventListener('load', init() );
         // preparamos la petición GET
         xhttp.open("GET", url , true);
         // enviar la peticion asincrona, meter el codigo en onreadystatechange
-        xhttp.send();   
+        xhttp.send(); 
+        
+        
+        
     }
+
+    function funciondetalle(numero){
+        console.debug(numero);
+    
+    }
+    
