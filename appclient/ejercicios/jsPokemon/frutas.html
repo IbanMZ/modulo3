@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutas</title>
+</head>
+<body>
+    <script>
+         const frutas = [
+            {
+                "nombre": "fresa",
+                "precio": 4.56,
+                "oferta": true,
+                "descuento" : 50,
+                "colores" : [ "rojo" ]
+            },
+            {
+                "nombre": "manzana",
+                "precio": 1.99,
+                "oferta": false,
+                "descuento" : 50,
+                "colores" : [ "rojo","verde","amarillo" ]
+            },
+            {
+                "nombre": "kiwi",
+                "precio": 3.00,
+                "oferta": false,
+                "descuento" : 10,
+                "colores" : [ "verde","amarillo" ]
+            }
+            
+        ];
+
+    console.info(frutas);
+
+    //Array solo con nombres de frutas ( map )
+
+    const Nombres = frutas.map( fruta => { 
+            console.debug(fruta);
+            return fruta.nombre;
+        });
+        console.info('Array de nombres de fruta  %o ', Nombres);
+
+
+    //Array solo con nombres de frutas que están en oferta ( map + filter )
+        //Devuelve todo siempre que se cumpla la condicion. Para sacar solo nombre habra que mapearlo
+
+    const Oferta = frutas.filter( el => {
+            return el.oferta == true}
+    );
+    
+    const Ofertafiltrada = Oferta.map( fruta => { 
+            
+            return fruta.nombre;
+        });
+        console.info('Array de nombres de fruta en oferta %o ', Ofertafiltrada);
+
+    
+
+    //Precio TOTAL de todas las frutas ( map + reduce )
+
+    const Precios = frutas.map( el => { 
+            
+            return el.precio;
+        }); 
+
+    const Precio = Precios.map( el => el ).reduce( (previous, current) => {
+
+        return previous + current;
+
+        }, 0 );
+    console.info('Precios sumados %o', + Precio);
+
+    //Precio TOTAL de todas las frutas, pero aplicando el descuento si están en oferta ( map, filter, reduce )
+
+    const ADescontar = frutas.filter( el => {
+            return el.oferta == true}
+    );
+    const Descontado = ADescontar.map( el =>{
+        return el.precio - el.precio * (el.descuento/100)
+    });
+    
+    const SumaDescontado = Descontado.map( el => el ).reduce( (previous, current) => {
+
+        return previous + current;
+        }, 0 );
+    console.info('Suma de precios descontados %o', SumaDescontado);
+
+    //Array solo con los colores de las fruta, se supone que tenia que ponerle ", 0"
+            //al acabar la duncion, antes de ");", pero si lo hago, me saca el 0
+        const arrayColores = frutas.map( fruta => { 
+            console.debug(fruta);
+            return fruta.colores;
+        });
+        console.info('Array de colores ', arrayColores);
+
+        const Colores = arrayColores.map( el => el ).reduce( (previous, current) => {
+                const Color = current.map(el1 => el1).reduce( (previous, current) =>{
+                    return previous + ' ' + current ;
+                } ) ;
+                
+        return previous + ' ' + Color ;
+        });
+
+        console.info('Lista de colores %o', Colores);
+
+    //Array solo con los colores de las frutas SIN REPETICIÓN(opcional)
+    </script>
+
+</body>
+</html>
