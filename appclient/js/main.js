@@ -1,11 +1,5 @@
 // fichero javascript para app
-
-window.addEventListener('load', init() );
-
-function init(){
-    console.debug('Document Load and Ready');
-    // es importante esperar que todo este cragando para comenzar
-    const listadoAlumnos = 
+const listadoAlumnos = 
     [{
        "id": 1,
 
@@ -13,7 +7,7 @@ function init(){
 
        "nombre": "Alumno1",
 
-       "sexo": "Hombre"
+       "sexo": "Mujer"
    },
    {
        "id": 2,
@@ -21,7 +15,7 @@ function init(){
 
        "nombre": "Alumno2",
 
-       "sexo": "Hombre"
+       "sexo": "Mujer"
    },
    {
        "id": 3,
@@ -30,7 +24,7 @@ function init(){
 
        "nombre": "Alumno3",
 
-       "sexo": "Mujer"
+       "sexo": "Hombre"
    },
    {
        "id": 4,
@@ -39,28 +33,56 @@ function init(){
 
        "nombre": "Alumno4",
 
-       "sexo": "Mujer"
+       "sexo": "Hombre"
    }
 ]
 
-  //Scarlo por pantalla
-for(let i=0; i < listadoAlumnos.length; i++ ){
-  let alumno = listadoAlumnos[i];
+window.addEventListener('load', init() );
+
+function init(){
+    console.debug('Document Load and Ready');
+    // es importante esperar que todo este cragando para comenzar
+   
+    pintarLista( listadoAlumnos );
+    /*const personasFiltradas = listadoAlumnos.filter( el => el.sexo == "Mujer" ) ;
+    pintarLista( personasFiltradas );
+    console.info(personasFiltradas);*/
+    
+
+ 
+}
+function sexoSeleccionado(){
+  let sexo = document.getElementById("selector").value;
+  console.debug(sexo);
+  if(sexo == 'Todos'){
+    pintarLista( listadoAlumnos );
+  }else{
+  const personasFiltradas = listadoAlumnos.filter( el => el.sexo == sexo) ;
+  pintarLista( personasFiltradas );
+  console.info(personasFiltradas);
+  }
+}
+  
+function pintarLista(personasFiltradas){
+   //Scarlo por pantalla
+   listaAlumnos.innerHTML = '';
+for(let i=0; i < personasFiltradas.length; i++ ){
+  let alumno = personasFiltradas[i];
   let insertaralumno = document.getElementById('listaAlumnos');
   
   
   listaAlumnos.innerHTML += '<li><img src="' + alumno.url + '">' + alumno.nombre + '</li>';
 }
+
+$(document).ready(function(){
   
-
-
-
-
-
-
-
-
-
-
-
+  $("input").keyup(function(){
+    let nombreFiltrado = document.getElementById("inombre").value;
+    console.debug(nombreFiltrado);
+    const filtroPorNombre = listadoAlumnos.filter( el => el.nombre == nombreFiltrado ) ;
+    pintarLista( filtroPorNombre );
+    console.info(filtroPorNombre);
+  });
+  
+});
 }
