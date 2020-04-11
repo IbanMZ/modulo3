@@ -24,9 +24,6 @@ function init(){
     });
 
     document.getElementById("inombre").value = '';
-    
-
- 
 }
 function sexoSeleccionado(){
 
@@ -41,10 +38,87 @@ function sexoSeleccionado(){
     }
 }
                  
-            
+function guardar(){
+    console.trace("Guardar");
+    
+    let id = document.getElementById('idForm').value;
+    let nombre = document.getElementById('nombreForm').value;
+    let avatar = `img/${document.getElementById('avatarForm').value}`;
+    //let sexo = document.getElementsByName('sexoForm').value;
+    let sexo = document.nombreForm.sexoForm.value;
+    let persona = {
+        "id" : id,
+        "nombre" : nombre,
+        "avatar" : avatar,
+        "sexo"  : sexo
+    };
+
+    console.debug('persona a guardar %o', persona);
+
+    //TODO llamar servicio rest
+
+    personas.push(persona);
+    pintarLista(personas);
+
+}
+function seleccionar(indice){
+    console.trace('seleccionar %o', indice);
+
+    
+    personaSeleccionada = personas[indice];
+    
+    
+    console.debug('click seleccionar persona %o', personaSeleccionada);
+   
+    //rellernar formulario
+    document.getElementById('idForm').value = personaSeleccionada.id;
+    document.getElementById('nombreForm').value = personaSeleccionada.nombre;
+    document.getElementById('avatarForm').value = personaSeleccionada.avatar;
+    document.nombreForm.sexoForm.value = personaSeleccionada.sexo;
+}
+function nuevo(){
+    console.trace('nuevo');
+    document.getElementById('idForm').value = '';
+    document.getElementById('nombreForm').value = '';
+    document.getElementById('avatarForm').value = '';
+    document.getElementById('formSexo').value = 'h';
+}
+function eliminar(indice){
+    let personaSeleccionada = personas[indice];
+    console.debug('click eliminar persona %o', personaSeleccionada);
+    const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada.nombre} ?`;
+    if ( confirm(mensaje) ){
+
+      
+       personas.splice(indice,1);
+       /*si hacemos personas= personas.splice(indice, 1), al parecer carga el valor a borrar,
+         lo borra, pero luego guarda en personas el valor cargado,
+         util para guardar el valor borrado en otra variable en un paso*/
+
+       // personas = personas.filter( el => el.id != personaSeleccionada.id) (a las bravas)
+        pintarLista(personas);
+        //TODO llamada al servicio rest
+
+    }
+
+} 
+function modificar(){
+    console.trace('Modificar');
+    personas.map(function(el){
+        if(el.id ==  document.getElementById('idForm').value){
+          el.nombre = document.getElementById('nombreForm').value;
+          el.avatar = document.getElementById('avatarForm').value;
+          el.sexo = document.nombreForm.sexoForm.value;
+        }
+        console.debug(el);
+        return el;
+      });
+      pintarLista(personas);
+}         
   
 function pintarLista(personasFiltradas){
    //Scarlo por pantalla
+   console.trace("pintarLista");
    console.info(personasFiltradas);
    listaAlumnos.innerHTML = '';
 for(let i=0; i < personasFiltradas.length; i++ ){
@@ -52,12 +126,18 @@ for(let i=0; i < personasFiltradas.length; i++ ){
   let insertaralumno = document.getElementById('listaAlumnos');
  
   
-  listaAlumnos.innerHTML += `<li><img src="${alumno.avatar}">${alumno.nombre}</li>`;
+  listaAlumnos.innerHTML += `<li class="list-group-item"><img src="${alumno.avatar}">${alumno.nombre}
+                                <i class="fas fa-pencil-ruler" onclick="seleccionar(${i})"></i>
+                                <i class="fas fa-trash" onclick="eliminar(${i})"></i>
+                            </li>`;
 }
 
+
+
+
 $(document).ready(function(){
-  
-  $("input").keyup(function(){
+  //$("input").keyup(function(){ afectava a los input del formulario
+  $("#inombre").keyup(function(){
 
 
 
@@ -72,3 +152,4 @@ $(document).ready(function(){
 });
 
 }
+
