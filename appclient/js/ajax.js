@@ -31,6 +31,10 @@ function ajax( metodo, url, datos ){
         };// onreadystatechange
 
         xhttp.open( metodo , url , true);
-        xhttp.send();
+        //Enviamos cabecera, si no el Post falla
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        //Los datos hay que mandarlos en String, y esa funcion los pasa de formato json a string
+        xhttp.send( JSON.stringify(datos) );
+       
     });
 }

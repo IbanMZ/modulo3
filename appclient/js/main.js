@@ -57,10 +57,30 @@ function guardar(){
 
     console.debug('persona a guardar %o', persona);
 
-    //TODO llamar servicio rest
+    ajax('POST',endPoint, persona)
+    .then( data => {
 
-    personas.push(persona);
-    pintarLista(personas);
+            // conseguir de nuevo todos los alumnos
+            ajax("GET", endPoint, undefined)               
+            .then( data => {
+                    console.trace('promesa resolve'); 
+                    personas = data;
+                    pintarLista( personas );
+        
+            }).catch( error => {
+                    console.warn('promesa rejectada');
+                    alert(error);
+            });
+
+    })
+    .catch( error => {
+        console.warn('promesa rejectada');
+        alert(error);
+    });
+
+    //Esto lo usamos con variable local, no con metodo POST
+   // personas.push(persona);
+   // pintarLista(personas);
 
 }
 function seleccionar(indice){
@@ -116,22 +136,85 @@ function eliminar(indice){
     const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada.nombre} ?`;
     if ( confirm(mensaje) ){
 
+      const url = endPoint + personaSeleccionada.id;
+      ajax('DELETE', url, undefined)
+      .then( data => {
+
+        // conseguir de nuevo todos los alumnos
+        ajax("GET", endPoint, undefined)               
+        .then( data => {
+                console.trace('promesa resolve'); 
+                personas = data;
+                pintarLista( personas );
+    
+        }).catch( error => {
+                console.warn('promesa rejectada');
+                alert(error);
+        });
+
+})
+.catch( error => {
+    console.warn('promesa rejectada');
+    alert(error);
+});
       
-       personas.splice(indice,1);
+      
+       
+
+       // personas = personas.filter( el => el.id != personaSeleccionada.id) (a las bravas)
+       
        /*si hacemos personas= personas.splice(indice, 1), al parecer carga el valor a borrar,
          lo borra, pero luego guarda en personas el valor cargado,
          util para guardar el valor borrado en otra variable en un paso*/
 
-       // personas = personas.filter( el => el.id != personaSeleccionada.id) (a las bravas)
-        pintarLista(personas);
-        //TODO llamada al servicio rest
+       // personas.splice(indice,1);
+       // pintarLista(personas);
+        
 
     }
 
 } 
 function modificar(){
     console.trace('Modificar');
-    personas.map(function(el){
+
+    let id = document.getElementById('idForm').value;
+    let nombre = document.getElementById('nombreForm').value;
+    let avatar = `img/${document.getElementById('avatarForm').value}`;
+    //let sexo = document.getElementsByName('sexoForm').value;
+    let sexo = document.nombreForm.sexoForm.value;
+    let persona = {
+        "id" : id,
+        "nombre" : nombre,
+        "avatar" : avatar,
+        "sexo"  : sexo
+    };
+
+    const url = endPoint + persona.id;
+    ajax('PUT',url, persona)
+    .then( data => {
+
+            // conseguir de nuevo todos los alumnos
+            ajax("GET", endPoint, undefined)               
+            .then( data => {
+                    console.trace('promesa resolve'); 
+                    personas = data;
+                    pintarLista( personas );
+        
+            }).catch( error => {
+                    console.warn('promesa rejectada');
+                    alert(error);
+            });
+
+    })
+    .catch( error => {
+        console.warn('promesa rejectada');
+        alert(error);
+    });
+
+
+
+
+   /* personas.map(function(el){
         if(el.id ==  document.getElementById('idForm').value){
           el.nombre = document.getElementById('nombreForm').value;
           el.avatar = document.getElementById('avatarForm').value;
@@ -140,7 +223,7 @@ function modificar(){
         console.debug(el);
         return el;
       });
-      pintarLista(personas);
+      pintarLista(personas);*/
 }  
 
 
