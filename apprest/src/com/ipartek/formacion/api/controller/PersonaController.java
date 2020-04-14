@@ -6,11 +6,15 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.ipartek.formacion.model.Persona;
+
 
 @Path("/personas")
 @Produces("application/json")
@@ -24,12 +28,15 @@ public class PersonaController {
 	
 	private static ArrayList<Persona> personas = new ArrayList<Persona>();
 	
+	private static int id =1;
+	
 	
 	static {
 		personas.add( new Persona(1,"Arantxa","img/avatar1.png", "m") );
 		personas.add( new Persona(2,"Idoia","img/avatar2.png", "m") );
 		personas.add( new Persona(3,"Iker","img/avatar3.png", "h") );
 		personas.add( new Persona(4,"Hodei","img/avatar4.png", "h") );
+		id = 5;
 	}
 
 	
@@ -45,6 +52,19 @@ public class PersonaController {
 	public ArrayList<Persona> getAll() {	
 		LOGGER.info("getAll");
 		return personas;
+	}
+	
+	@POST
+	public Response insert(Persona persona) {
+		LOGGER.info("insert(" + persona + ")");
+
+		//TODO validar datos de la Persona javax.validation
+		persona.setId(id);
+		id++;
+		personas.add(persona);
+		
+		//Devolvemos al navegador un 201 y los datos de la persona creada
+		return Response.status(Status.CREATED).entity(persona).build();
 	}
 	
 	

@@ -41,16 +41,16 @@
             <div class="col-sm-6">
                 <form name = "nombreForm">
                     <div class="form-group">
-                    <label for="idForm">Id</label>
-                    <input type="text" class="form-control" id="idForm">
+                        <label for="idForm">Id</label>
+                        <input type="text" class="form-control" id="idForm">
                     </div>
                     <div class="form-group">
-                    <label for="nombreForm">Nombre</label>
-                    <input type="text" class="form-control" id="nombreForm">
+                        <label for="nombreForm">Nombre</label>
+                        <input type="text" class="form-control" id="nombreForm">
                     </div>
                     <div class="form-group">
                         <label for="avatarForm">Foto de Avatar</label>
-                        <input type="text" class="form-control" id="avatarForm">
+                        <input type="text" class="form-control" id="avatarForm" readonly="readonly">
                     </div>
                 <!--No se ven(en chromium sí)-->
                     <div class="form-check">
@@ -65,13 +65,15 @@
                         Mujer
                         </label>
                     </div>
+                    <div id="gallery">                    
+                    </div>
                     <!--Los botones refrescan la pagina,
                          si da problemas mete iconos de fontawesome y sigue con el programa-->
-                    
-                    <i class="far fa-save" onclick="guardar()"></i>
-                    <i class="fas fa-ad" onclick="nuevo()"></i>
-                    <i class="fas fa-pencil-ruler" onclick="modificar()">
-                    
+                    <div>
+                        <i class="far fa-save" onclick="guardar()"></i>
+                        <i class="fas fa-ad" onclick="nuevo()"></i>
+                        <i class="fas fa-pencil-ruler" onclick="modificar()"></i>
+                    </div>
                 </form>
             </div>
         </div>
