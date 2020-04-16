@@ -35,16 +35,14 @@ public class PersonaController {
 	
 	private static int id =1;
 	
-	//ToDo Singleton, deberiamos haber usado getInstancia
-	private static PersonaDAO personaDAO = new PersonaDAO();
+	//Como ya hay singleton, se llama a la instancia desde aqui.
+	private static PersonaDAO personaDAO =  PersonaDAO.getInstance();
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private Validator validator = factory.getValidator();
 	
 	@Context
 	private ServletContext context;
-	
-	private static ArrayList<Persona> personas = new ArrayList<Persona>();
 	
 	public PersonaController() {
 		super();
@@ -62,38 +60,32 @@ public class PersonaController {
 	@POST
 	public Response insert(Persona persona) {
 		LOGGER.info("insert(" + persona + ")");
-		Persona registro = null;
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-		try {
-			registro = personaDAO.insert(persona);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//validar datos de la Persona javax.validation
+
 		// validar pojo
-		/*Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
-		persona.setId(id);
-		if ( violations.isEmpty() ) {
-			
-			persona.setId(id);
-			id++;
-			personas.add(persona);
-			response = Response.status(Status.CREATED).entity(persona).build();
-			
-		}else {
+		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
+
+		if (violations.isEmpty()) {
+
+			try {
+				personaDAO.insert(persona);
+				response = Response.status(Status.CREATED).entity(persona).build();
+				
+			}catch (Exception e) {
+				response = Response.status(Status.CONFLICT).entity(persona).build();
+			}	
+
+		} else {
 			ArrayList<String> errores = new ArrayList<String>();
-			for ( ConstraintViolation<Persona> violation : violations ) { 
-				errores.add( violation.getPropertyPath() + ": " + violation.getMessage() );
+			for (ConstraintViolation<Persona> violation : violations) {
+				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
-			
+
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
-		}*/
-		response = Response.status(Status.CREATED).entity(registro).build();	
+		}
+
 		return response;
+
 	}
 	
 	@PUT
@@ -111,41 +103,37 @@ public class PersonaController {
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 			
 		}else {
-
-			for (int i = 0; i < personas.size(); i++) {
-	
-				if (id == personas.get(i).getId()) {
-					personas.remove(i);
-					personas.add(i, persona);					
-					response = Response.status(Status.OK).entity(persona).build();
-					break;
-				}
-			}// for
+			
+			try {
+				personaDAO.update(persona);
+				response = Response.status(Status.OK).entity(persona).build();
+			}catch (Exception e) {
+				response = Response.status(Status.CONFLICT).entity(persona).build();
+			}	
 			
 		}	
 
 		return response;
 	}
 
+
 	@DELETE
 	@Path("/{id: \\d+}")
 	public Response eliminar(@PathParam("id") int id) {
-		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 		LOGGER.info("eliminar(" + id + ")");
+
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 		Persona persona = null;
-			for(int i = 0; i < personas.size(); i++) {
+		
+		try {
+			personaDAO.delete(id);
+			response = Response.status(Status.OK).entity(id).build();
 			
-				if( id == personas.get(i).getId()) {
-					personas.remove(i);
-					persona = personas.get(i);
-					break;
-				}
-			}
-		if(persona == null) {
-			response = Response.status(Status.NOT_FOUND).build();
-		}
-		else {
-			response = Response.status(Status.OK).entity(persona).build();
+		}catch (SQLException e) {
+			response = Response.status(Status.CONFLICT).entity(persona).build();
+			
+		}catch (Exception e) {
+			response = Response.status(Status.NOT_FOUND).entity(persona).build();
 		}
 		return response;
 	}

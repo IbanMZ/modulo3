@@ -45,7 +45,7 @@ function guardar(){
     
     let id = document.getElementById('idForm').value;
     let nombre = document.getElementById('nombreForm').value;
-    let avatar = `img/${document.getElementById('avatarForm').value}`;
+    let avatar = `${document.getElementById('avatarForm').value}`;
     //let sexo = document.getElementsByName('sexoForm').value;
     let sexo = document.nombreForm.sexoForm.value;
     let persona = {
@@ -64,6 +64,7 @@ function guardar(){
             ajax("GET", endPoint, undefined)               
             .then( data => {
                     console.trace('promesa resolve'); 
+                    
                     personas = data;
                     pintarLista( personas );
         
@@ -83,25 +84,26 @@ function guardar(){
    // pintarLista(personas);
 
 }
-function seleccionar(indice){
-    console.trace('seleccionar %o', indice);
-
+function seleccionar(idRecibido){
+    console.trace('seleccionar %o', idRecibido);
     
-    personaSeleccionada = personas[indice];
-    
+    //el indice daba problemas al filtrar, asi que lo he cambiado por el id
+    let personaSeleccionada = personas.filter( el => el.id == idRecibido);
+   
+       
     
     console.debug('click seleccionar persona %o', personaSeleccionada);
    
     //rellernar formulario
-    document.getElementById('idForm').value = personaSeleccionada.id;
-    document.getElementById('nombreForm').value = personaSeleccionada.nombre;
-    document.getElementById('avatarForm').value = personaSeleccionada.avatar;
+    document.getElementById('idForm').value = personaSeleccionada[0].id;
+    document.getElementById('nombreForm').value = personaSeleccionada[0].nombre;
+    document.getElementById('avatarForm').value = personaSeleccionada[0].avatar;
 
     //seleccionar Avatar
     const avatares = document.querySelectorAll('#gallery img');
     avatares.forEach( el => {
         el.classList.remove('selected');
-        if ( personaSeleccionada.avatar == el.dataset.path ){
+        if ( personaSeleccionada[0].avatar == el.dataset.path ){
             el.classList.add('selected');
         }
     });
@@ -130,20 +132,21 @@ function nuevo(){
     
     
 }
-function eliminar(indice){
-    let personaSeleccionada = personas[indice];
+function eliminar(idRecibido){
+    let personaSeleccionada = personas.filter( el => el.id == idRecibido);
     console.debug('click eliminar persona %o', personaSeleccionada);
-    const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada.nombre} ?`;
+    const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada[0].nombre} ?`;
     if ( confirm(mensaje) ){
 
-      const url = endPoint + personaSeleccionada.id;
+      const url = endPoint + personaSeleccionada[0].id;
       ajax('DELETE', url, undefined)
       .then( data => {
-
+        console.debug('txibato');
         // conseguir de nuevo todos los alumnos
         ajax("GET", endPoint, undefined)               
         .then( data => {
                 console.trace('promesa resolve'); 
+                console.debug(data);
                 personas = data;
                 pintarLista( personas );
     
@@ -179,7 +182,7 @@ function modificar(){
 
     let id = document.getElementById('idForm').value;
     let nombre = document.getElementById('nombreForm').value;
-    let avatar = `img/${document.getElementById('avatarForm').value}`;
+    let avatar = `${document.getElementById('avatarForm').value}`;
     //let sexo = document.getElementsByName('sexoForm').value;
     let sexo = document.nombreForm.sexoForm.value;
     let persona = {
@@ -238,10 +241,13 @@ for(let i=0; i < personasFiltradas.length; i++ ){
   let insertaralumno = document.getElementById('listaAlumnos');
  
   
-  listaAlumnos.innerHTML += `<li class="list-group-item"><img src="${alumno.avatar}">${alumno.nombre}
-                                <i class="fas fa-pencil-ruler" onclick="seleccionar(${i})"></i>
-                                <i class="fas fa-trash" onclick="eliminar(${i})"></i>
+  listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
+                                
+                                <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
+                                <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
                             </li>`;
+                            /*<i class="fas fa-pencil-ruler" onclick="seleccionar(${i})"></i>
+                                <i class="fas fa-trash" onclick="eliminar(${i})"></i>*/
 }
 }
 
@@ -271,7 +277,7 @@ function initGallery(){
     for ( let i = 1; i <= 7 ; i++){
         divGallery.innerHTML += `<img onclick="selectAvatar(event)" 
                                       class="avatar" 
-                                      data-path="img/avatar${i}.png"
+                                      data-path="avatar${i}.png"
                                       src="img/avatar${i}.png">`;
     }
 }
