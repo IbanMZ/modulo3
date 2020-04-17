@@ -126,8 +126,9 @@ public class PersonaController {
 		Persona persona = null;
 		
 		try {
-			personaDAO.delete(id);
-			response = Response.status(Status.OK).entity(id).build();
+			persona = personaDAO.delete(id);
+			
+			response = Response.status(Status.OK).entity(persona).build();
 			
 		}catch (SQLException e) {
 			response = Response.status(Status.CONFLICT).entity(persona).build();

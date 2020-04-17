@@ -16,14 +16,19 @@ function ajax( metodo, url, datos ){
             if (this.readyState == 4 ) {
 
                 if ( this.status == 200 || this.status == 201 ){
-                    
+                    console.debug(this.responseText);
+                    if(this.responseText != ""){
                     const jsonData = JSON.parse(this.responseText);    
                     console.debug( jsonData );
 
-                    // funciona promesa, then
                     resolve(jsonData);
+                    }
+                    else{
+                        console.debug('txibato');
+                        resolve();
+                    }
                 }else{
-                    // falla promesa, catch
+                    
                     reject( Error( this.status ));
                 }               
             }// readyState == 4
