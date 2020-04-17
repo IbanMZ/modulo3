@@ -19,6 +19,7 @@ function init(){
             console.trace('promesa resolve'); 
             personas = data;
             pintarLista( personas );
+            
 
     }).catch( error => {
             console.warn('promesa rejectada');
@@ -108,7 +109,7 @@ function seleccionar(idRecibido){
         }
     });
 
-
+    
     document.nombreForm.sexoForm.value = personaSeleccionada.sexo;
 }
 
@@ -249,6 +250,7 @@ for(let i=0; i < personasFiltradas.length; i++ ){
                             /*<i class="fas fa-pencil-ruler" onclick="seleccionar(${i})"></i>
                                 <i class="fas fa-trash" onclick="eliminar(${i})"></i>*/
 }
+limpiarLista();
 }
 
 
@@ -295,6 +297,20 @@ function selectAvatar(evento){
     iAvatar.value = evento.target.dataset.path;
 
 }
+
+function limpiarLista(){
+    console.log('LimpiarLista!!!')
+    document.getElementById('idForm').value = '';
+    document.getElementById('nombreForm').value = '';
+    document.getElementById('avatarForm').value = '';
+    document.nombreForm.sexoForm.value = 'h';
+    const avatares = document.querySelectorAll('#gallery img');
+    avatares.forEach( el => {
+        el.classList.remove('selected');
+        });
+
+}
+
 
 
 
