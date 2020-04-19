@@ -10,26 +10,18 @@ window.addEventListener('load', init() );
 
 function init(){
     console.debug('Document Load and Ready');
-
+    console.trace('init');
     initGallery();
     
-    const promesa = ajax("GET", endPoint, undefined);
-    promesa
-    .then( data => {
-            console.trace('promesa resolve'); 
-            personas = data;
-            pintarLista( personas );
-            
+    pintarLista(  );
+    limpiarSelectores();
+    resetBotones();
+    
 
-    }).catch( error => {
-            console.warn('promesa rejectada');
-            alert(error);
-    });
-
-    document.getElementById("inombre").value = '';
+   
 }
 function sexoSeleccionado(){
-
+    console.trace('sexoSeleccionado');
     let sexo = document.getElementById("selector").value;
      console.debug(sexo);
     if(sexo == 't'){
@@ -37,13 +29,16 @@ function sexoSeleccionado(){
     }else{
         const personasFiltradas = personas.filter( el => el.sexo == sexo) ;
         pintarLista( personasFiltradas );
-        console.info(personasFiltradas);
+        
+        
     }
+    limpiarSelectores('sexoselec');
+    
 }
                  
 function guardar(){
     console.trace("Guardar");
-    
+
     let id = document.getElementById('idForm').value;
     let nombre = document.getElementById('nombreForm').value;
     let avatar = `${document.getElementById('avatarForm').value}`;
@@ -61,32 +56,23 @@ function guardar(){
     ajax('POST',endPoint, persona)
     .then( data => {
 
-            // conseguir de nuevo todos los alumnos
-            ajax("GET", endPoint, undefined)               
-            .then( data => {
-                    console.trace('promesa resolve'); 
-                    
-                    personas = data;
-                    pintarLista( personas );
-        
-            }).catch( error => {
-                    console.warn('promesa rejectada');
-                    alert(error);
-            });
+        pintarLista();
+        limpiarSelectores();
+        resetBotones();
 
     })
     .catch( error => {
         console.warn('promesa rejectada');
-        alert(error);
+        alert('No puedes introducir dos usuarios con el mismo nombre');
     });
-
-    //Esto lo usamos con variable local, no con metodo POST
-   // personas.push(persona);
-   // pintarLista(personas);
-
 }
 function seleccionar(idRecibido){
     console.trace('seleccionar %o', idRecibido);
+
+    //Preparar botones
+    document.getElementById('botonNuevo').disabled = true;
+    document.getElementById('botonGuardar').disabled = true;
+    document.getElementById('botonModificar').disabled = false;
     
     //el indice daba problemas al filtrar, asi que lo he cambiado por el id
     let personaSeleccionada = personas.filter( el => el.id == idRecibido);
@@ -118,6 +104,16 @@ function nuevo(){
     const avatares = document.querySelectorAll('#gallery img');
     console.trace(avatares);
     console.trace('nuevo');
+    limpiarSelectores();
+    pintarLista();
+
+    //Preparar botones
+    document.getElementById('botonNuevo').disabled = true;
+    document.getElementById('botonGuardar').disabled = false;
+    document.getElementById('botonModificar').disabled = true;
+    
+    
+
     document.getElementById('idForm').value = '';
     document.getElementById('nombreForm').value = '';
     document.getElementById('avatarForm').value = 'avatar7.png';
@@ -132,29 +128,22 @@ function nuevo(){
     document.nombreForm.sexoForm.value  = 'h';
     
     
+    
 }
 function eliminar(idRecibido){
+    
+    console.trace('eliminar');
     let personaSeleccionada = personas.filter( el => el.id == idRecibido);
-    console.debug('click eliminar persona %o', personaSeleccionada);
+    
     const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada[0].nombre} ?`;
     if ( confirm(mensaje) ){
 
       const url = endPoint + personaSeleccionada[0].id;
       ajax('DELETE', url, undefined)
       .then( data => {
-        console.debug('txibato');
-        // conseguir de nuevo todos los alumnos
-        ajax("GET", endPoint, undefined)               
-        .then( data => {
-                console.trace('promesa resolve'); 
-                console.debug(data);
-                personas = data;
-                pintarLista( personas );
-    
-        }).catch( error => {
-                console.warn('promesa rejectada');
-                alert(error);
-        });
+       
+        pintarLista(  );
+        limpiarSelectores();
 
 })
 .catch( error => {
@@ -203,6 +192,8 @@ function modificar(){
                     console.trace('promesa resolve'); 
                     personas = data;
                     pintarLista( personas );
+                    limpiarSelectores();
+                    resetBotones();
         
             }).catch( error => {
                     console.warn('promesa rejectada');
@@ -212,22 +203,9 @@ function modificar(){
     })
     .catch( error => {
         console.warn('promesa rejectada');
-        alert(error);
+        alert('No puedes introducir dos usuarios con el mismo nombre');
     });
-
-
-
-
-   /* personas.map(function(el){
-        if(el.id ==  document.getElementById('idForm').value){
-          el.nombre = document.getElementById('nombreForm').value;
-          el.avatar = document.getElementById('avatarForm').value;
-          el.sexo = document.nombreForm.sexoForm.value;
-        }
-        console.debug(el);
-        return el;
-      });
-      pintarLista(personas);*/
+    limpiarSelectores();
 }  
 
 
@@ -237,20 +215,47 @@ function pintarLista(personasFiltradas){
    console.trace("pintarLista");
    console.info(personasFiltradas);
    listaAlumnos.innerHTML = '';
-for(let i=0; i < personasFiltradas.length; i++ ){
-  let alumno = personasFiltradas[i];
-  let insertaralumno = document.getElementById('listaAlumnos');
- 
-  
-  listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
-                                
-                                <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
-                                <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
-                            </li>`;
-                            /*<i class="fas fa-pencil-ruler" onclick="seleccionar(${i})"></i>
-                                <i class="fas fa-trash" onclick="eliminar(${i})"></i>*/
-}
-limpiarLista();
+   
+  if(personasFiltradas == null){
+        const promesa = ajax("GET", endPoint, undefined);
+        promesa
+        .then( data => {
+                console.trace('promesa resolve'); 
+                personas = data;
+                for(let i=0; i < personas.length; i++ ){
+                    
+                    let alumno = personas[i];
+                    let insertaralumno = document.getElementById('listaAlumnos');
+                    
+                    
+                    listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
+                                                    
+                                                    <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
+                                                    <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
+                                                </li>`;                                 
+            }
+                
+
+        }).catch( error => {
+                console.warn('promesa rejectada');
+                alert(error);
+        });
+    }else{
+   
+        for(let i=0; i < personasFiltradas.length; i++ ){
+                    
+                let alumno = personasFiltradas[i];
+                let insertaralumno = document.getElementById('listaAlumnos');
+                
+                
+                listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
+                                                
+                                                <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
+                                                <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
+                                            </li>`;                                 
+        }
+    }
+
 }
 
 
@@ -266,15 +271,16 @@ $(document).ready(function(){
         console.debug(nombreFiltrado);
         const filtroPorNombre = personas.filter( el => el.nombre.toLowerCase().includes(nombreFiltrado) ) ;
         pintarLista( filtroPorNombre );
-        console.info(filtroPorNombre);;
+        limpiarSelectores('nombrefil');
   });
-  
+ 
 });
 
 /**
  * Carga todas las imagen de los avatares
  */
 function initGallery(){
+    console.trace('initGallery');
     let divGallery =  document.getElementById('gallery');
     for ( let i = 1; i <= 7 ; i++){
         divGallery.innerHTML += `<img onclick="selectAvatar(event)" 
@@ -299,7 +305,7 @@ function selectAvatar(evento){
 }
 
 function limpiarLista(){
-    console.log('LimpiarLista!!!')
+    console.trace('limpiarLista');
     document.getElementById('idForm').value = '';
     document.getElementById('nombreForm').value = '';
     document.getElementById('avatarForm').value = '';
@@ -308,10 +314,29 @@ function limpiarLista(){
     avatares.forEach( el => {
         el.classList.remove('selected');
         });
-
+    
+}
+function limpiarSelectores(opcion){
+    if(opcion == 'sexoselec' ){
+        console.trace('resetBuscador');
+        document.getElementById('inombre').value = ''; 
+    }else if(opcion == 'nombrefil' ){
+        console.trace('resetSexo');
+        document.getElementById("selector").value = 't';
+    }else{
+        console.trace('resetBuscadorSexo');
+        document.getElementById("selector").value = 't'; 
+        document.getElementById('inombre').value = '';
+    }
 }
 
 
-
-
+function resetBotones(){
+    console.trace('ResetBotones');
+    document.getElementById('botonNuevo').disabled = false;
+    document.getElementById('botonGuardar').disabled = true;
+    document.getElementById('botonModificar').disabled = true;
+    limpiarLista();
+    
+}
 

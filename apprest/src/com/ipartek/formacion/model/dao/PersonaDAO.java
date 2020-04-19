@@ -141,7 +141,7 @@ public class PersonaDAO implements IDAO<Persona>{
 			
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			throw new Exception("No se puede modificar registro " + e.getMessage() );
 		}
 		return personaInsertar;
 	}

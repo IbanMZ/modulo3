@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <!--No esta pillando el css de bootstrap-->
+        
         <h1>Alumnos</h1>
         <div class="Buscador">
             <h2>Buscador</h2>           
@@ -42,7 +42,7 @@
                 <form name = "nombreForm">
                     <div class="form-group">
                         <label for="idForm">Id</label>
-                        <input type="text" class="form-control" id="idForm">
+                        <input type="text" class="form-control" id="idForm" readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label for="nombreForm">Nombre</label>
@@ -67,12 +67,11 @@
                     </div>
                     <div id="gallery">                    
                     </div>
-                    <!--Los botones refrescan la pagina,
-                         si da problemas mete iconos de fontawesome y sigue con el programa-->
-                    <div>
-                        <i class="far fa-save" onclick="guardar()"></i>
-                        <i class="fas fa-ad" onclick="nuevo()"></i>
-                        <i class="fas fa-pencil-ruler" onclick="modificar()"></i>
+                    <div id="botonera">
+                        <button id="botonNuevo" type="button" class="btn btn-primary" onclick="nuevo()">Nuevo</button>
+                        <button id="botonGuardar" type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
+                        <button id="botonModificar" type="button" class="btn btn-primary" onclick="modificar()">Modificar</button>
+                        <button id="botonCancelar" type="button" class="btn btn-primary" onclick="resetBotones()">Cancelar</button>
                     </div>
                 </form>
             </div>
