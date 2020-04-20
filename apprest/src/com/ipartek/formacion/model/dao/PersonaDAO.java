@@ -181,4 +181,12 @@ public class PersonaDAO implements IDAO<Persona>{
 		return p;
 	}
 
+	@Override
+	public List<Persona> getFiltered(String filtro) {
+		// Metodo para Curso
+		return null;
+	}
+
+	
+
 }

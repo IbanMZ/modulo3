@@ -16,7 +16,8 @@ public class CursoDAO implements IDAO<Curso>{
 	
 	private static CursoDAO INSTANCE = null;
 	
-	private static String SQL_GET_ALL   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso ORDER BY idCurso DESC LIMIT 500;";
+	private static String SQL_GET_ALL   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso ORDER BY idCurso  ASC LIMIT 500;";
+	private static String SQL_GET_ALL_FILTERED   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso where nombreCurso LIKE ? ORDER BY idCurso  ASC LIMIT 100;";
 	
 	private CursoDAO() {
 		super();		
@@ -28,16 +29,18 @@ public class CursoDAO implements IDAO<Curso>{
         }
         return INSTANCE;
 	}
-
+	
 	@Override
 	public List<Curso> getAll() {
 		LOGGER.info("getAll");
-		
+		 
 		ArrayList<Curso> registros = new ArrayList<Curso>();
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
-				ResultSet rs = pst.executeQuery();
-
+				
+				
+				ResultSet rs = pst.executeQuery();	
+						
 		) {
 
 			LOGGER.info(pst.toString());
@@ -54,6 +57,35 @@ public class CursoDAO implements IDAO<Curso>{
 		}
 
 		return registros;
+	}
+
+	@Override
+	public List<Curso> getFiltered(String filtro) {
+		LOGGER.info("getFiltered " + filtro);
+		
+		 
+		ArrayList<Curso> registros = new ArrayList<Curso>();
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_FILTERED );				
+		) {
+			pst.setString(1,"%" + filtro + "%");
+			LOGGER.info("Sentencia----" + pst.toString());
+			
+			ResultSet rs = pst.executeQuery();
+				
+			while( rs.next() ) {
+				//mandamos al mapper, y alli 
+				registros.add( mapper(rs) );				
+			}
+			
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return registros;
+		
 	}
 
 	@Override
@@ -86,6 +118,11 @@ public class CursoDAO implements IDAO<Curso>{
 		c.setFotoCurso( rs.getString("fotoCurso"));
 		c.setPrecio( rs.getFloat("precioCurso"));
 		return c;
-	} 
+	}
+
+
+	
+
+	 
 
 }

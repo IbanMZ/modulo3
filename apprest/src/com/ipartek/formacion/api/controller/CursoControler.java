@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
 import com.ipartek.formacion.model.Curso;
@@ -42,10 +43,17 @@ import com.ipartek.formacion.model.dao.CursoDAO;
 		}
 
 		@GET
-		public ArrayList<Curso> getAll() {	
-			LOGGER.info("getAll");
+		public ArrayList<Curso> getAll(@QueryParam("filtro") String filtro) {	
+			LOGGER.info("getAll" + filtro);
+			ArrayList<Curso> registros;
 			
-			ArrayList<Curso> registros = (ArrayList<Curso>) cursoDAO.getAll();
+			
+			if(filtro == null || filtro.length() < 3) {
+				registros = (ArrayList<Curso>) cursoDAO.getAll();
+			}else {
+				registros = (ArrayList<Curso>) cursoDAO.getFiltered(filtro);
+			}
+				
 			return registros;
 		}	
 	}

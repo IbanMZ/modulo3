@@ -1,9 +1,11 @@
 // fichero javascript para app
 
 let personas = [];
+let cursos = [];
 //Utilizalo para guardar los datos recividos de la petidion y poder utilizarlos cuando quieras
 //Este es para conectar al servidor
 const endPoint = 'http://localhost:8080/apprest/api/personas/';
+const endModal =  'http://localhost:8080/apprest/api/cursos/?filtro=';
     //Este url(endpoint) seria para llamar a datos de un archivo, simulando la conexion a base de datos
         //const endPoint = 'http://127.0.0.1:5500/js/data/personas.json';
 window.addEventListener('load', init() );
@@ -273,7 +275,17 @@ $(document).ready(function(){
         pintarLista( filtroPorNombre );
         limpiarSelectores('nombrefil');
   });
- 
+  $("#icurso").keyup(function(){
+
+
+
+    let cursoFiltrado = document.getElementById("icurso").value.toLowerCase();
+
+    console.debug(cursoFiltrado);
+    
+    pintarModal( cursoFiltrado );
+    
+});
 });
 
 /**
@@ -340,3 +352,67 @@ function resetBotones(){
     
 }
 
+//Ventana modal
+
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("botonModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+        modal.style.display = "block";
+        console.trace('BotonModal');
+        pintarModal();
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        document.getElementById('icurso').value = ''; 
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            document.getElementById('icurso').value = ''; 
+        }
+        }
+function pintarModal(cursoFiltrado){
+    console.trace("pintarModal" + cursoFiltrado);
+    let url = "";
+    if(cursoFiltrado == undefined){
+        url = endModal;
+    }
+    else{
+        url = endModal + cursoFiltrado;
+    }
+
+    listaCursos.innerHTML = '';
+   
+  
+        const promesa = ajax("GET", url, undefined);
+        promesa
+        .then( data => {
+                console.trace('promesa resolve'); 
+                cursos = data;
+                for(let i=0; i < cursos.length; i++ ){
+                    
+                    let curso = cursos[i];
+                    let insertarModal = document.getElementById('listaModal');
+                    
+                    
+                    listaCursos.innerHTML += `<li class="list-group-item"><img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}
+                                            </li>`;                                 
+            }
+        }).catch( error => {
+                console.warn('promesa rejectada');
+                alert(error);
+        });
+   
+
+}

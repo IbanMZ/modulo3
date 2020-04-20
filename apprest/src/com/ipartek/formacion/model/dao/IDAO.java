@@ -3,6 +3,8 @@ package com.ipartek.formacion.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ipartek.formacion.model.Curso;
+
 /**
  * Interfaz para las operaciones bÃ¡sicas de CRUD
  * @author javaee
@@ -12,6 +14,8 @@ import java.util.List;
 public interface IDAO<P> {
 	
 	List<P> getAll();
+	
+	List<P> getFiltered(String filtro);
 	
 	/**
 	 * busca un pojo por su id
@@ -48,5 +52,7 @@ public interface IDAO<P> {
 	 * @throws SQLException si existe alguna constraint
 	 */
 	P update(P pojo)throws Exception, SQLException;
+
+
 	
 }
