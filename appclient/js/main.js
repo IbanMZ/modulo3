@@ -77,28 +77,38 @@ function seleccionar(idRecibido){
     document.getElementById('botonModificar').disabled = false;
     
     //el indice daba problemas al filtrar, asi que lo he cambiado por el id
-    let personaSeleccionada = personas.filter( el => el.id == idRecibido);
-   
-       
+    //let personaSeleccionada = personas.filter( el => el.id == idRecibido);
     
+    let personaSeleccionada = personas.find( el => el.id == idRecibido);
+   
     console.debug('click seleccionar persona %o', personaSeleccionada);
    
     //rellernar formulario
-    document.getElementById('idForm').value = personaSeleccionada[0].id;
-    document.getElementById('nombreForm').value = personaSeleccionada[0].nombre;
-    document.getElementById('avatarForm').value = personaSeleccionada[0].avatar;
+    document.getElementById('idForm').value = personaSeleccionada.id;
+    document.getElementById('nombreForm').value = personaSeleccionada.nombre;
+    document.getElementById('avatarForm').value = personaSeleccionada.avatar;
 
     //seleccionar Avatar
     const avatares = document.querySelectorAll('#gallery img');
     avatares.forEach( el => {
         el.classList.remove('selected');
-        if ( personaSeleccionada[0].avatar == el.dataset.path ){
+        if ( personaSeleccionada.avatar == el.dataset.path ){
             el.classList.add('selected');
         }
     });
 
-    
     document.nombreForm.sexoForm.value = personaSeleccionada.sexo;
+
+    let listaCursosAlumno = document.getElementById('listaCurContrarados');
+    listaCursosAlumno.innerHTML = '';
+    personaSeleccionada.cursos.forEach( el => {
+
+        listaCursosAlumno.innerHTML += `<li>
+                                            ${el.nombreCurso}
+                                            <i class="fas fa-trash" onclick="eliminarCurso(${personaSeleccionada.id},${el.idCurso})"></i>
+                                        </li>`;
+
+    });
 }
 
 
@@ -147,11 +157,11 @@ function eliminar(idRecibido){
         pintarLista(  );
         limpiarSelectores();
 
-})
-.catch( error => {
-    console.warn('promesa rejectada');
-    alert(error);
-});
+        })
+        .catch( error => {
+            console.warn('promesa rejectada %o', error);
+            alert(error.informacion);
+        });
       
       
        
@@ -227,11 +237,13 @@ function pintarLista(personasFiltradas){
                 for(let i=0; i < personas.length; i++ ){
                     
                     let alumno = personas[i];
+                    let nCursos = alumno.cursos.length;
+
                     let insertaralumno = document.getElementById('listaAlumnos');
                     
                     
-                    listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
-                                                    
+                    listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre} 
+                                                    cursos: ${nCursos}
                                                     <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
                                                     <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
                                                 </li>`;                                 
@@ -247,11 +259,12 @@ function pintarLista(personasFiltradas){
         for(let i=0; i < personasFiltradas.length; i++ ){
                     
                 let alumno = personasFiltradas[i];
+                let nCursos = alumno.cursos.length;
                 let insertaralumno = document.getElementById('listaAlumnos');
                 
                 
                 listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
-                                                
+                                                cursos: ${nCursos}
                                                 <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
                                                 <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
                                             </li>`;                                 
@@ -279,7 +292,7 @@ $(document).ready(function(){
 
 
 
-    let cursoFiltrado = document.getElementById("icurso").value.toLowerCase();
+    let cursoFiltrado = document.getElementById("icurso").value.toLowerCase().trim();
 
     console.debug(cursoFiltrado);
     
@@ -351,16 +364,16 @@ function resetBotones(){
     limpiarLista();
     
 }
-
+/********************************************************/
 //Ventana modal
-
+/******************************************************/
         var modal = document.getElementById("myModal");
 
         // Get the button that opens the modal
         var btn = document.getElementById("botonModal");
 
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+        var span = document.getElementById("cerrarBoton");
 
         // When the user clicks the button, open the modal 
         btn.onclick = function() {
@@ -377,11 +390,12 @@ function resetBotones(){
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            document.getElementById('icurso').value = ''; 
+            if (event.target == modal) {
+                modal.style.display = "none";
+                document.getElementById('icurso').value = ''; 
+            }
         }
-        }
+/**************************************************************/
 function pintarModal(cursoFiltrado){
     console.trace("pintarModal" + cursoFiltrado);
     let url = "";
@@ -406,13 +420,46 @@ function pintarModal(cursoFiltrado){
                     let insertarModal = document.getElementById('listaModal');
                     
                     
-                    listaCursos.innerHTML += `<li class="list-group-item"><img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}
+                    listaCursos.innerHTML += `<li class="list-group-item">
+                                            <img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}
+                                            <span onClick="asignarCurso( 0, ${curso.idCurso})" >[x] Asignar</span>
                                             </li>`;                                 
             }
         }).catch( error => {
                 console.warn('promesa rejectada');
                 alert(error);
         });
-   
+}
+function asignarCurso( idPersona = 0, idCurso ){
+    idPersona = document.getElementById('idForm').value;
+   // idPersona = (idPersona != 0) ? idPersona : personaSeleccionada.id;
+
+    console.debug(`click asignarCurso idPersona=${idPersona} idCurso=${idCurso}`);
+
+    const url = endPoint + idPersona + "/curso/" + idCurso;
+    ajax('POST', url, undefined)
+    .then( data => {
+        alert('Curso Asignado');
+
+        //FIXME falta pintar curso del formulario, problema Asincronismo
+        cargarAlumnos();
+        seleccionar(idPersona);
+    })
+    .catch( error => alert(error));
+}
+function eliminarCurso( idPersona, idCurso ){
+
+    console.debug(`click eliminarCurso idPersona=${idPersona} idCurso=${idCurso}`);
+
+    const url = endPoint +  idPersona + "/curso/" + idCurso;
+    ajax('DELETE', url, undefined)
+    .then( data => {
+        alert('Curso Eliminado');
+
+        //FIXME falta quitar curso del formulario, problema Asincronismo
+        cargarAlumnos();
+        seleccionar(idPersona);
+    })
+    .catch( error => alert(error));
 
 }

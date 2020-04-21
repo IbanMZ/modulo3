@@ -38,7 +38,7 @@
                     
                 </ul>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-3">
                 <form name = "nombreForm">
                     <div class="form-group">
                         <label for="idForm">Id</label>
@@ -77,6 +77,13 @@
                         <button id="botonModal" type="button" class="btn btn-primary" >Añadir Curso</button>
                     </div>
                 </form>
+                
+            </div>
+            <div class=col-sm-3>
+                <ul id="listaCurContrarados">
+                    <li>Proba</li>
+                    
+                </ul>
             </div>
         </div>
     </main>
@@ -84,7 +91,7 @@
     <div id="myModal" class="modal">
     <!-- Modal content -->
         <div class="modal-content">
-        <span class="close">&times;</span>
+        <span id="cerrarBoton" class="close">&times;</span>
         <h2>Cursos disponibles</h2>
         <input type="search" id="icurso" placeholder="Escribe nombre">
         <li class="list-group-item">
