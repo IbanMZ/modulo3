@@ -2,10 +2,11 @@
 
 let personas = [];
 let cursos = [];
+let url = "";
 //Utilizalo para guardar los datos recividos de la petidion y poder utilizarlos cuando quieras
 //Este es para conectar al servidor
-const endPoint = 'http://localhost:8080/apprest/api/personas/';
-const endModal =  'http://localhost:8080/apprest/api/cursos/?filtro=';
+const endPoint = 'http://localhost:8080/apprest/api/';
+
     //Este url(endpoint) seria para llamar a datos de un archivo, simulando la conexion a base de datos
         //const endPoint = 'http://127.0.0.1:5500/js/data/personas.json';
 window.addEventListener('load', init() );
@@ -33,7 +34,7 @@ function sexoSeleccionado(){
         pintarLista( personasFiltradas );
         
         
-    }
+    }//sexoSeleccionado
     limpiarSelectores('sexoselec');
     
 }
@@ -51,11 +52,11 @@ function guardar(){
         "nombre" : nombre,
         "avatar" : avatar,
         "sexo"  : sexo
-    };
+    };//let persona
 
     console.debug('persona a guardar %o', persona);
-
-    ajax('POST',endPoint, persona)
+    url = endPoint + "personas/"
+    ajax('POST',url, persona)
     .then( data => {
 
         pintarLista();
@@ -67,7 +68,7 @@ function guardar(){
         console.warn('promesa rejectada');
         alert('No puedes introducir dos usuarios con el mismo nombre');
     });
-}
+} //guardar
 function seleccionar(idRecibido){
     console.trace('seleccionar %o', idRecibido);
 
@@ -75,9 +76,6 @@ function seleccionar(idRecibido){
     document.getElementById('botonNuevo').disabled = true;
     document.getElementById('botonGuardar').disabled = true;
     document.getElementById('botonModificar').disabled = false;
-    
-    //el indice daba problemas al filtrar, asi que lo he cambiado por el id
-    //let personaSeleccionada = personas.filter( el => el.id == idRecibido);
     
     let personaSeleccionada = personas.find( el => el.id == idRecibido);
    
@@ -95,7 +93,7 @@ function seleccionar(idRecibido){
         if ( personaSeleccionada.avatar == el.dataset.path ){
             el.classList.add('selected');
         }
-    });
+    });//avatares.forEach
 
     document.nombreForm.sexoForm.value = personaSeleccionada.sexo;
 
@@ -105,11 +103,11 @@ function seleccionar(idRecibido){
 
         listaCursosAlumno.innerHTML += `<li>
                                             ${el.nombreCurso}
-                                            <i class="fas fa-trash" onclick="eliminarCurso(${personaSeleccionada.id},${el.idCurso})"></i>
+                                            <i class="fas fa-trash" onclick="eliminarCurso(event,${personaSeleccionada.id},${el.idCurso})"></i>
                                         </li>`;
 
-    });
-}
+    });//personaSeleccionada.cursos.forEach
+}//seleccionar
 
 
 function nuevo(){
@@ -124,8 +122,6 @@ function nuevo(){
     document.getElementById('botonGuardar').disabled = false;
     document.getElementById('botonModificar').disabled = true;
     
-    
-
     document.getElementById('idForm').value = '';
     document.getElementById('nombreForm').value = '';
     document.getElementById('avatarForm').value = 'avatar7.png';
@@ -138,10 +134,7 @@ function nuevo(){
     avatares[6].classList.add('selected');
 
     document.nombreForm.sexoForm.value  = 'h';
-    
-    
-    
-}
+}//nuevo
 function eliminar(idRecibido){
     
     console.trace('eliminar');
@@ -150,33 +143,21 @@ function eliminar(idRecibido){
     const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada[0].nombre} ?`;
     if ( confirm(mensaje) ){
 
-      const url = endPoint + personaSeleccionada[0].id;
+      const url = endPoint + "personas/" + personaSeleccionada[0].id;
       ajax('DELETE', url, undefined)
       .then( data => {
        
         pintarLista(  );
         limpiarSelectores();
 
-        })
+        })//
         .catch( error => {
             console.warn('promesa rejectada %o', error);
+            console.debug(error);
             alert(error.informacion);
-        });
+        });// ajax('DELETE', url, undefined)
       
-      
-       
-
-       // personas = personas.filter( el => el.id != personaSeleccionada.id) (a las bravas)
-       
-       /*si hacemos personas= personas.splice(indice, 1), al parecer carga el valor a borrar,
-         lo borra, pero luego guarda en personas el valor cargado,
-         util para guardar el valor borrado en otra variable en un paso*/
-
-       // personas.splice(indice,1);
-       // pintarLista(personas);
-        
-
-    }
+    }//if ( confirm(mensaje) )
 
 } 
 function modificar(){
@@ -194,12 +175,13 @@ function modificar(){
         "sexo"  : sexo
     };
 
-    const url = endPoint + persona.id;
+     url = endPoint + "personas/" + persona.id;
     ajax('PUT',url, persona)
     .then( data => {
 
             // conseguir de nuevo todos los alumnos
-            ajax("GET", endPoint, undefined)               
+            url = endPoint + "personas/";
+            ajax("GET", url, undefined)               
             .then( data => {
                     console.trace('promesa resolve'); 
                     personas = data;
@@ -210,15 +192,15 @@ function modificar(){
             }).catch( error => {
                     console.warn('promesa rejectada');
                     alert(error);
-            });
+            });//ajax("GET", url, undefined)
 
     })
     .catch( error => {
         console.warn('promesa rejectada');
         alert('No puedes introducir dos usuarios con el mismo nombre');
-    });
+    });//ajax('PUT',url, persona)
     limpiarSelectores();
-}  
+}  //modificar
 
 
   
@@ -229,7 +211,8 @@ function pintarLista(personasFiltradas){
    listaAlumnos.innerHTML = '';
    
   if(personasFiltradas == null){
-        const promesa = ajax("GET", endPoint, undefined);
+      url = endPoint + "personas/";
+        const promesa = ajax("GET", url, undefined);
         promesa
         .then( data => {
                 console.trace('promesa resolve'); 
@@ -400,10 +383,10 @@ function pintarModal(cursoFiltrado){
     console.trace("pintarModal" + cursoFiltrado);
     let url = "";
     if(cursoFiltrado == undefined){
-        url = endModal;
+        url = endPoint + "cursos/";
     }
     else{
-        url = endModal + cursoFiltrado;
+        url = endPoint + "cursos/?filtro=" + cursoFiltrado;
     }
 
     listaCursos.innerHTML = '';
@@ -419,7 +402,7 @@ function pintarModal(cursoFiltrado){
                     let curso = cursos[i];
                     let insertarModal = document.getElementById('listaModal');
                     
-                    
+                    ///${curso.fotoCurso} falla, tamaño? mañana mira codigo de ander
                     listaCursos.innerHTML += `<li class="list-group-item">
                                             <img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}
                                             <span onClick="asignarCurso( 0, ${curso.idCurso})" >[x] Asignar</span>
@@ -432,33 +415,42 @@ function pintarModal(cursoFiltrado){
 }
 function asignarCurso( idPersona = 0, idCurso ){
     idPersona = document.getElementById('idForm').value;
-   // idPersona = (idPersona != 0) ? idPersona : personaSeleccionada.id;
+    console.log('AsignarCurso');
+   
+    document.getElementById("myModal").style.display = 'none';
 
     console.debug(`click asignarCurso idPersona=${idPersona} idCurso=${idCurso}`);
 
-    const url = endPoint + idPersona + "/curso/" + idCurso;
+    const url = endPoint + "personas/" + idPersona + "/cursos/" + idCurso;
     ajax('POST', url, undefined)
     .then( data => {
-        alert('Curso Asignado');
-
-        //FIXME falta pintar curso del formulario, problema Asincronismo
-        cargarAlumnos();
-        seleccionar(idPersona);
+        alert(data.informacion);
+        //<li class="animated bounceIn"> 
+        const curso = data.data;
+        let lista = document.getElementById('listaCurContrarados');        
+        lista.innerHTML += `<li>  
+                                ${curso.nombreCurso}
+                                <i class="fas fa-trash" onclick="eliminarCurso(event, ${idPersona},${curso.idCurso})"></i>    
+                            </li>`;
+        pintarLista();
+        
+        
     })
-    .catch( error => alert(error));
+    .catch( error => alert(error.informacion));
 }
-function eliminarCurso( idPersona, idCurso ){
+function eliminarCurso(event, idPersona, idCurso ){
 
     console.debug(`click eliminarCurso idPersona=${idPersona} idCurso=${idCurso}`);
 
-    const url = endPoint +  idPersona + "/curso/" + idCurso;
+    const url = endPoint + "personas/" +  idPersona + "/cursos/" + idCurso;
     ajax('DELETE', url, undefined)
     .then( data => {
         alert('Curso Eliminado');
 
-        //FIXME falta quitar curso del formulario, problema Asincronismo
-        cargarAlumnos();
-        seleccionar(idPersona);
+        //  event.target.parentElement.style.display = 'none';
+       event.target.parentElement.classList.add('animated', 'bounceOut');
+        
+       pintarLista();
     })
     .catch( error => alert(error));
 

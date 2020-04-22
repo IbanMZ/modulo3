@@ -28,8 +28,13 @@ function ajax( metodo, url, datos ){
                         resolve();
                     }
                 }else{
-                    
-                    reject( Error( this.status ));
+                     // falla promesa, catch
+                    //reject( Error( JSON.parse(this.responseText) ));
+                    if( this.responseText ){
+                        reject( JSON.parse(this.responseText) );
+                    }else{
+                        reject( this.status );
+                    }
                 }               
             }// readyState == 4
 

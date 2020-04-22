@@ -22,7 +22,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.ipartek.formacion.model.Curso;
 import com.ipartek.formacion.model.Persona;
+import com.ipartek.formacion.model.dao.CursoDAO;
 import com.ipartek.formacion.model.dao.PersonaDAO;
 
 
@@ -37,6 +39,7 @@ public class PersonaController {
 	
 	//Como ya hay singleton, se llama a la instancia desde aqui.
 	private static PersonaDAO personaDAO =  PersonaDAO.getInstance();
+	private static CursoDAO cursoDAO = CursoDAO.getInstance();
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private Validator validator = factory.getValidator();
@@ -149,7 +152,7 @@ public class PersonaController {
 		return response;
 	}
 	@POST
-	@Path("/{idPersona}/curso/{idCurso}")
+	@Path("/{idPersona}/cursos/{idCurso}")
 	public Response asignarCurso(@PathParam("idPersona") int idPersona, @PathParam("idCurso") int idCurso) {
 		LOGGER.info("asignarCurso idPersona=" + idPersona + " idCurso= " + idCurso);
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
@@ -157,13 +160,16 @@ public class PersonaController {
 
 		try {		
 			personaDAO.asignarCurso(idPersona, idCurso);
-			Persona p = personaDAO.getById(idPersona);
+			Curso c = cursoDAO.getById(idCurso);
 			
 			responseBody.setInformacion("curso asigando con exito");
-			responseBody.setData(p);
+			responseBody.setData(c);
 			response = Response.status(Status.CREATED).entity(responseBody).build();
 			
-		} catch (Exception e) {			
+		} catch (SQLException e) {//Nuevo
+			responseBody.setInformacion("Curso ya asignado");
+			response = Response.status(Status.CONFLICT).entity(responseBody).build();
+		}catch (Exception e) {			
 				responseBody.setInformacion(e.getMessage());
 				response = Response.status(Status.NOT_FOUND).entity(responseBody).build();
 		}
@@ -174,7 +180,7 @@ public class PersonaController {
 	
 	
 	@DELETE
-	@Path("/{idPersona}/curso/{idCurso}")
+	@Path("/{idPersona}/cursos/{idCurso}")
 	public Response eliminarCurso(@PathParam("idPersona") int idPersona, @PathParam("idCurso") int idCurso) {
 		LOGGER.info("eliminarCurso idPersona=" + idPersona + " idCurso= " + idCurso);
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();

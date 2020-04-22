@@ -16,8 +16,9 @@ public class CursoDAO implements IDAO<Curso>{
 	
 	private static CursoDAO INSTANCE = null;
 	
-	private static String SQL_GET_ALL   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso ORDER BY idCurso  ASC LIMIT 500;";
-	private static String SQL_GET_ALL_FILTERED   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso where nombreCurso LIKE ? ORDER BY idCurso  ASC LIMIT 100;";
+	private static String SQL_GET_ALL   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso ORDER BY idCurso  DESC LIMIT 500;";
+	private static String SQL_GET_ALL_FILTERED   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso where nombreCurso LIKE ? ORDER BY idCurso  DESC LIMIT 100;";
+	private static String SQL_GET_BY_ID   = "SELECT idCurso, nombreCurso, precioCurso, fotoCurso FROM curso WHERE idCurso = ?; ";
 	
 	private CursoDAO() {
 		super();		
@@ -90,8 +91,30 @@ public class CursoDAO implements IDAO<Curso>{
 
 	@Override
 	public Curso getById(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Curso registro = null;
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_ID);
+		) {
+
+			pst.setInt(1, id);
+			LOGGER.info(pst.toString());
+			
+			try( ResultSet rs = pst.executeQuery() ){			
+				
+				if( rs.next() ) {					
+					registro = mapper(rs);
+				}else {
+					throw new Exception("Registro no encontrado para id = " + id);
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return registro;
 	}
 
 	@Override

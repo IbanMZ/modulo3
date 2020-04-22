@@ -97,7 +97,7 @@ public class PersonaDAO implements IDAO<Persona>{
 		//creo que no usamos este metodo
 		
 		Persona registro = null;
-		HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
+		
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_ID);
 		) {
@@ -107,8 +107,9 @@ public class PersonaDAO implements IDAO<Persona>{
 			
 			try( ResultSet rs = pst.executeQuery() ){
 				
+				HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
 				if( rs.next() ) {					
-					 mapper(rs, hmPersonas );					
+					 registro= mapper(rs, hmPersonas );					
 					
 				}else {
 					throw new Exception("Registro no encontrado para id = " + id);
@@ -147,7 +148,7 @@ public class PersonaDAO implements IDAO<Persona>{
 			
 		} catch (SQLException e) {
 
-			throw new Exception("No se puede eliminar registro " + e.getMessage() );
+			throw new SQLException("No se puede eliminar registro " + e.getMessage() );
 		}
 
 		return registro;
@@ -222,6 +223,9 @@ public class PersonaDAO implements IDAO<Persona>{
 			}else {
 				resul = false;		
 			}
+		}catch (SQLException e) {
+
+			throw new SQLException("Curso ya asignado " + e.getMessage() );
 		}
 		
 		return resul;
@@ -251,7 +255,7 @@ public class PersonaDAO implements IDAO<Persona>{
 	}
 	
 	
-	private void mapper( ResultSet rs, HashMap<Integer, Persona> hm ) throws SQLException {
+	private Persona mapper( ResultSet rs, HashMap<Integer, Persona> hm ) throws SQLException {
 		
 		int key = rs.getInt("id"); 
 		
@@ -280,6 +284,8 @@ public class PersonaDAO implements IDAO<Persona>{
 				
 				//actualizar hashmap
 				hm.put(key, p);
+				
+				return p;
 		
 	}
 
