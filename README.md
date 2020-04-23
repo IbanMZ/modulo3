@@ -46,6 +46,13 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
 		  * password="o8lAkaNtX91xMUcV"   
     
     * Detalle API rest con llamadas(url-s y demas)
+        * Obtener personas: Metodo: GET, url: http://localhost:8080/apprest/api/personas/
+        * Insertar persona: Metoro POST, url: http://localhost:8080/apprest/api/personas/
+        * Modificar persona: Metoro PUT, url: http://localhost:8080/apprest/api/personas/{id}
+        * Borrar persona: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{id}
+        * Asignar un curso: Metoro POST, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
+        * Borrar un curso a un alumno: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
+       * Obtener cursos: Metodo: GET, url: http://localhost:8080/apprest/api/cursos/?filtro={String}
 - Tags o Versiones
     * Version 1.0: Aqui podemos ver, añadir, modificar, y eliminar alumnos.
     * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos.
