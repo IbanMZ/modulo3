@@ -9,7 +9,7 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
 - AppCliente
     * Introducción  
     
-      La parte de cliente tiene dos partes principales. A la izquierda, esta el listado de alumnos. En el vemos su avatar, el nombre, a cuantos cursos está apuntado, y los botones de seleccionar y borrar el alumno. Ten en cuenta que un alumno con cursos no se puede borrar.  
+      La parte de cliente tiene dos partes principales. A la izquierda, esta el listado de alumnos. En el vemos su avatar, el nombre, a cuantos cursos está apuntado, y los botones de seleccionar y borrar el alumno. Ten en cuenta que un alumno con cursos no se puede borrar. En la parte inferior hay una tabla con noticias. 
       
       A la derecha, esta la parte de detalles, tambien dividido en dos partes. Al principio veremos un formulario vacio con unos botones, nuevo, modificar, guardar , cancelar y añadir curso. Si clickamos en nuevo da la opcion de meter un alumno nuevo, y de guardarlo con el boton guardar. Si utilizamos el boton seleccionar de la lista de alumnos(parte izquierda de la aplicación, aqui se mostraran los datos del alumno en el formulario y a la derecha de este, si el alumno esta apuntado a cursos, tambien se mostraran. En este punto puedes usar el boton Asignar Curso para abrir una ventana modal y asignar un curso,borrrar los cursos en los que está apuntando clicando la palelera al lado del propio curso, o modificar los datos del alumno. Hay que pulsar el boton modificar para guardar los cambion en el formulario. En la ventana modar, mencionada antes, se pueden ver los cursos exitentes, y filtrartol por nombre, siempre que se metan tres o  más letras. Solo se podran asignar cursos que no esten asignados al alumno en cuestion. 
       
@@ -53,6 +53,7 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
         * Asignar un curso: Metoro POST, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
         * Borrar un curso a un alumno: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
        * Obtener cursos: Metodo: GET, url: http://localhost:8080/apprest/api/cursos/?filtro={String}
+       * Obtener noticias: Metodo: GET, url: http://localhost:8080/apprest/api/noticias/
 - Tags o Versiones
     * Version 1.0: Aqui podemos ver, añadir, modificar, y eliminar alumnos.
     * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos.
