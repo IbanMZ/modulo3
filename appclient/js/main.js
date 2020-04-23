@@ -76,6 +76,7 @@ function seleccionar(idRecibido){
     document.getElementById('botonNuevo').disabled = true;
     document.getElementById('botonGuardar').disabled = true;
     document.getElementById('botonModificar').disabled = false;
+    document.getElementById('botonModal').disabled = false;
     
     let personaSeleccionada = personas.find( el => el.id == idRecibido);
    
@@ -344,6 +345,9 @@ function resetBotones(){
     document.getElementById('botonNuevo').disabled = false;
     document.getElementById('botonGuardar').disabled = true;
     document.getElementById('botonModificar').disabled = true;
+    document.getElementById('botonModal').disabled = true;
+
+    
     limpiarLista();
     
 }
