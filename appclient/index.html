@@ -40,7 +40,7 @@
                     
                 </ul>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <form name = "nombreForm">
                     <div class="form-group">
                         <label for="idForm">Id</label>
@@ -69,19 +69,21 @@
                     </div>
                     <div id="gallery">                    
                     </div>
-                    <div id="botonera">
+                    <div class="botonera btn-group">
                         <button id="botonNuevo" type="button" class="btn btn-primary" onclick="nuevo()">Nuevo</button>
                         <button id="botonGuardar" type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
-                        <button id="botonModificar" type="button" class="btn btn-primary" onclick="modificar()">Modificar</button>
-                        <button id="botonCancelar" type="button" class="btn btn-primary" onclick="resetBotones()">Cancelar</button>
                     </div>
-                    <div>
+                    <div class="botonera btn-group">
+                        <button id="botonModificar" type="button" class="btn btn-primary" onclick="modificar()">Modificar</button>
                         <button id="botonModal" type="button" class="btn btn-primary" >Añadir Curso</button>
+                    </div>
+                    <div class="botonera btn-group">
+                        <button id="botonCancelar" type="button" class="btn btn-primary" onclick="resetBotones()">Cancelar</button>  
                     </div>
                 </form>
                 
             </div>
-            <div class=col-sm-3>
+            <div class=col-sm-2>
                 <ul id="listaCurContrarados">
 
                 </ul>
