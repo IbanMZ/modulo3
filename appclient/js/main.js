@@ -17,6 +17,7 @@ function init(){
     initGallery();
     
     pintarLista(  );
+    pintarNoticias();
     limpiarSelectores();
     resetBotones();
     
@@ -104,7 +105,7 @@ function seleccionar(idRecibido){
 
         listaCursosAlumno.innerHTML += `<li>
                                             ${el.nombreCurso}
-                                            <i class="fas fa-trash" onclick="eliminarCurso(event,${personaSeleccionada.id},${el.idCurso})"></i>
+                                            <i class="fas fa-trash aflotar" onclick="eliminarCurso(event,${personaSeleccionada.id},${el.idCurso})"></i>
                                         </li>`;
 
     });//personaSeleccionada.cursos.forEach
@@ -227,9 +228,9 @@ function pintarLista(personasFiltradas){
                     
                     
                     listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre} 
-                                                    cursos: ${nCursos}
-                                                    <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
-                                                    <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
+                                                    <i class="fas fa-trash aflotar" onclick="eliminar(${alumno.id})"></i>                                
+                                                    <i class="fas fa-pencil-ruler aflotar" onclick="seleccionar(${alumno.id})"></i>
+                                                    <i class="aflotar">Cursos: ${nCursos}</i>
                                                 </li>`;                                 
             }
                 
@@ -248,7 +249,7 @@ function pintarLista(personasFiltradas){
                 
                 
                 listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
-                                                cursos: ${nCursos}
+                                                Cursos: ${nCursos}
                                                 <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
                                                 <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
                                             </li>`;                                 
@@ -409,8 +410,10 @@ function pintarModal(cursoFiltrado){
                     ///${curso.fotoCurso} falla, tamaño? mañana mira codigo de ander
                     listaCursos.innerHTML += `<li class="list-group-item">
                                             <img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}
-                                            <span onClick="asignarCurso( 0, ${curso.idCurso})" >[x] Asignar</span>
-                                            </li>`;                                 
+                                            
+                                            <button type="button" class="btn btn-secondary aflotar" onClick="asignarCurso( 0, ${curso.idCurso})">Asignar</button>
+                                            </li>`;
+                                            //<span onClick="asignarCurso( 0, ${curso.idCurso})" >[x] Asignar</span>                                 
             }
         }).catch( error => {
                 console.warn('promesa rejectada');
@@ -434,7 +437,7 @@ function asignarCurso( idPersona = 0, idCurso ){
         let lista = document.getElementById('listaCurContrarados');        
         lista.innerHTML += `<li>  
                                 ${curso.nombreCurso}
-                                <i class="fas fa-trash" onclick="eliminarCurso(event, ${idPersona},${curso.idCurso})"></i>    
+                                <i class="fas fa-trash aflotar" onclick="eliminarCurso(event, ${idPersona},${curso.idCurso})"></i>    
                             </li>`;
         pintarLista();
         
@@ -457,5 +460,34 @@ function eliminarCurso(event, idPersona, idCurso ){
        pintarLista();
     })
     .catch( error => alert(error));
+
+}
+function pintarNoticias(){
+    url = endPoint + "noticias/";
+    const promesa = ajax("GET", url, undefined);
+    promesa
+    .then( data => {
+            console.trace('promesa resolve'); 
+            cuadroNoticias.innerHTML = '';
+            noticias = data;
+            for(let i=0; i < personas.length; i++ ){
+                
+                let noticia = noticias[i];
+                 
+                cuadroNoticias.innerHTML += `
+                                            <div  class="card" style="width: 18rem;">
+                                                <div class="card-body">
+                                                    <h5 id="titularNoticia" class="card-title">${noticia.titularNoticia}</h5>
+                                                    <h6 id="fechaNoticia" class="card-subtitle mb-2 text-muted">${noticia.fechaNoticia}</h6>
+                                                    <p id="textoNoticia" class="card-text">${noticia.textoNoticia}</p>
+                                                </div> 
+                                            </div>`;                                 
+        }
+            
+
+    }).catch( error => {
+            console.warn('promesa rejectada');
+            alert('Fallo al cargar noticias');
+    });
 
 }

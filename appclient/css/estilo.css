@@ -17,6 +17,17 @@ h1{
     font-style: italic;
     font-style: oblique;
 }
+.aflotar{
+  float: right;
+  margin-left: 3px;
+}
+.modal-header, .modal-footer{
+  background-color: darkcyan;
+  height: 20px;
+}
+.modal-content{
+  padding: 0 !important;
+}
 
 
 /*Css Modal*****************************************/
