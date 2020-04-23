@@ -323,7 +323,7 @@ function limpiarLista(){
     avatares.forEach( el => {
         el.classList.remove('selected');
         });
-    
+        document.getElementById('listaCurContrarados').innerHTML='';
 }
 function limpiarSelectores(opcion){
     if(opcion == 'sexoselec' ){
