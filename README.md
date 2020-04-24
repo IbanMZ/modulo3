@@ -26,9 +26,9 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
         * Animate.Css  
         
     * Configuración  
-    La direccion que utilicamos para llamar al servicio Rest se encuentra en la variable endPont, del archivo main.js. Este archivo se encuentra en la carpeta js.
-    Las llamadas a los CSS esta en el "head" de index.html, en la carpeta appCliente, y las llamadas a los javascript-s estan al fondo del 
-    "body" del mismo archivo.  
+    La direccion que utilicamos para llamar al servicio Rest se encuentra en la variable **endPoint**, del archivo [main.js](https://github.com/IbanMZ/modulo3/blob/master/appclient/js/main.js). Este archivo se encuentra en la carpeta js.
+    Las llamadas a los CSS esta en el **head** de [index.html](https://github.com/IbanMZ/modulo3/blob/master/appclient/index.html), en la carpeta appCliente, y las llamadas a los javascript-s estan al fondo del 
+    **body** del mismo archivo.  
     
 - AppRest
     * Introducción
@@ -39,14 +39,15 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
         * MySql
         
     * Configuración:
-    
-        * Los datos del log los introducimos en el archivo context.xml. Su ubicacion es  /modulo3/apprest/WebContent/META-INF, y los campos a rellenar serian estos:
+        * El scrip de la base de datos de encuentra en x,modulo3/blob/master/apprest/,  o haciendo click [aqui](https://github.com/IbanMZ/modulo3/blob/master/apprest/script-db.sql)   
+        * Para conectarnos a la base de datos,los datos del log los introducimos en el archivo context.xml. Su ubicacion es  /modulo3/apprest/WebContent/META-INF, y los campos a rellenar serian estos:
         * url="jdbc:mysql://localhost:3306/alumnos"   
 		  * username="debian-sys-maint"  
 		  * password="o8lAkaNtX91xMUcV"   
     
     * Detalle API rest con llamadas(url-s y demas)
         * Obtener personas: Metodo: GET, url: http://localhost:8080/apprest/api/personas/
+	    * Respuestas: 200 ,404
         * Insertar persona: Metoro POST, url: http://localhost:8080/apprest/api/personas/
         * Modificar persona: Metoro PUT, url: http://localhost:8080/apprest/api/personas/{id}
         * Borrar persona: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{id}
