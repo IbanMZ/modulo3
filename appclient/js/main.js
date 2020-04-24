@@ -10,7 +10,9 @@ const endPoint = 'http://localhost:8080/apprest/api/';
     //Este url(endpoint) seria para llamar a datos de un archivo, simulando la conexion a base de datos
         //const endPoint = 'http://127.0.0.1:5500/js/data/personas.json';
 window.addEventListener('load', init() );
-
+/**
+ * Inicializa, mira los metodos para saber que hace cada uno.
+ */
 function init(){
     console.debug('Document Load and Ready');
     console.trace('init');
@@ -20,10 +22,12 @@ function init(){
     pintarNoticias();
     limpiarSelectores();
     resetBotones();
-    
-
-   
+       
 }
+
+/**
+ * Filtra las personas por sexo para luego ejecutar la funcion pintarLista
+ */
 function sexoSeleccionado(){
     console.trace('sexoSeleccionado');
     let sexo = document.getElementById("selector").value;
@@ -39,7 +43,11 @@ function sexoSeleccionado(){
     limpiarSelectores('sexoselec');
     
 }
-                 
+    
+/**
+ * 
+ * Recupera los valores del formulario y los guarda con un metodo POST
+ */
 function guardar(){
     console.trace("Guardar");
 
@@ -70,6 +78,11 @@ function guardar(){
         alert('No puedes introducir dos usuarios con el mismo nombre');
     });
 } //guardar
+
+/**
+ * Saca los datos de ese alumno en el formulario
+ * @param {*} idRecibido 
+ */
 function seleccionar(idRecibido){
     console.trace('seleccionar %o', idRecibido);
 
@@ -111,7 +124,10 @@ function seleccionar(idRecibido){
     });//personaSeleccionada.cursos.forEach
 }//seleccionar
 
-
+/**
+ * Bloquea los botones relacionados con modificar, vacia el formulario y selecciona imagen y sexo por defecto.
+ * Habilita el boton guardar.
+ */
 function nuevo(){
     const avatares = document.querySelectorAll('#gallery img');
     console.trace(avatares);
@@ -137,6 +153,11 @@ function nuevo(){
 
     document.nombreForm.sexoForm.value  = 'h';
 }//nuevo
+
+/**
+ * Recibe el id del elemento a eliminar, pregunta si esta seguro, y manda el id en metoro DELETE
+ * @param {*} idRecibido 
+ */
 function eliminar(idRecibido){
     
     console.trace('eliminar');
@@ -162,6 +183,10 @@ function eliminar(idRecibido){
     }//if ( confirm(mensaje) )
 
 } 
+
+/**
+ * Recoje los datos del formulario y los envia por un PUT
+ */
 function modificar(){
     console.trace('Modificar');
 
@@ -205,7 +230,10 @@ function modificar(){
 }  //modificar
 
 
-  
+  /**
+   * Saca la lista de alumnos, si llegan datos a personasFiltradas, saca esos datos, si no, saca a todos los alumnos 
+   * @param {*} personasFiltradas 
+   */
 function pintarLista(personasFiltradas){
    //Scarlo por pantalla
    console.trace("pintarLista");
@@ -259,7 +287,9 @@ function pintarLista(personasFiltradas){
 }
 
 
-
+/**
+ * Lo uso para los input de os filtros
+ */
 $(document).ready(function(){
   //$("input").keyup(function(){ afectava a los input del formulario
   $("#inombre").keyup(function(){
@@ -286,6 +316,7 @@ $(document).ready(function(){
 });
 });
 
+
 /**
  * Carga todas las imagen de los avatares
  */
@@ -300,6 +331,10 @@ function initGallery(){
     }
 }
 
+/**
+ * 
+ * @param {Selecciona la imagen del avatar} evento 
+ */
 function selectAvatar(evento){
     console.trace('click avatar');
     const avatares = document.querySelectorAll('#gallery img');
@@ -314,6 +349,9 @@ function selectAvatar(evento){
 
 }
 
+/**
+ * Vacia el formulario y resetea la imagen y el radiobutton
+ */
 function limpiarLista(){
     console.trace('limpiarLista');
     document.getElementById('idForm').value = '';
@@ -326,6 +364,13 @@ function limpiarLista(){
         });
         document.getElementById('listaCurContrarados').innerHTML='';
 }
+
+/**
+ * 
+ * @param {Si se usa el selector de sexy, limpia el imput del buscador, si se usa el imput, resetea el
+ * selector a Todos, si llega de otro sitio, resetea los dos.
+ * } opcion 
+ */
 function limpiarSelectores(opcion){
     if(opcion == 'sexoselec' ){
         console.trace('resetBuscador');
@@ -340,7 +385,9 @@ function limpiarSelectores(opcion){
     }
 }
 
-
+/**
+ * Resetea los botones del formulario 
+ */
 function resetBotones(){
     console.trace('ResetBotones');
     document.getElementById('botonNuevo').disabled = false;
@@ -352,6 +399,8 @@ function resetBotones(){
     limpiarLista();
     
 }
+
+
 /********************************************************/
 //Ventana modal
 /******************************************************/
@@ -384,6 +433,12 @@ function resetBotones(){
             }
         }
 /**************************************************************/
+
+/**
+ * Saca la lista de cursos en la ventana modal. Si llega un String de cursoFiltrado, lo envia en el Metodo Get, si no
+ * hace el GET sin enviar nada.
+ * @param {*} cursoFiltrado 
+ */
 function pintarModal(cursoFiltrado){
     console.trace("pintarModal" + cursoFiltrado);
     let url = "";
@@ -420,6 +475,12 @@ function pintarModal(cursoFiltrado){
                 alert(error);
         });
 }
+
+/**
+ * Manda por POST los Id-s para guaradarlos
+ * @param {*} idPersona 
+ * @param {*} idCurso 
+ */
 function asignarCurso( idPersona = 0, idCurso ){
     idPersona = document.getElementById('idForm').value;
     console.log('AsignarCurso');
@@ -445,6 +506,14 @@ function asignarCurso( idPersona = 0, idCurso ){
     })
     .catch( error => alert(error.informacion));
 }
+
+/**
+ * Recibe los id-s de la persona y el curso que hay que desasignarle, y lo realica con un metodo DELETE
+ * El event se usa para dejar de mostrarlo en el navegador
+ * @param {*} event 
+ * @param {*} idPersona 
+ * @param {*} idCurso 
+ */
 function eliminarCurso(event, idPersona, idCurso ){
 
     console.debug(`click eliminarCurso idPersona=${idPersona} idCurso=${idCurso}`);
@@ -462,6 +531,10 @@ function eliminarCurso(event, idPersona, idCurso ){
     .catch( error => alert(error));
 
 }
+
+/**
+ * Saca las noticias en la parte inferior del navegador
+ */
 function pintarNoticias(){
     url = endPoint + "noticias/";
     const promesa = ajax("GET", url, undefined);
