@@ -39,24 +39,32 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
         * MySql
         
     * Configuración:
-        * El scrip de la base de datos de encuentra en x,modulo3/blob/master/apprest/,  o haciendo click [aqui](https://github.com/IbanMZ/modulo3/blob/master/apprest/script-db.sql)   
-        * Para conectarnos a la base de datos,los datos del log los introducimos en el archivo context.xml. Su ubicacion es  /modulo3/apprest/WebContent/META-INF, y los campos a rellenar serian estos:
-        * url="jdbc:mysql://localhost:3306/alumnos"   
+        * El scrip de la base de datos de encuentra en x,modulo3/blob/master/apprest/,  o haciendo click [aqui](https://github.com/IbanMZ/modulo3/blob/master/apprest/script-db.sql).   
+        * Para conectarnos a la base de datos,los datos del log los introducimos en el archivo [context.xml](https://github.com/IbanMZ/modulo3/blob/master/apprest/WebContent/META-INF/context.xml). Su ubicacion es  /modulo3/apprest/WebContent/META-INF, y los campos a rellenar serian estos:
+	      *  url="jdbc:mysql://localhost:3306/alumnos"                          
 		  * username="debian-sys-maint"  
 		  * password="o8lAkaNtX91xMUcV"   
     
     * Detalle API rest con llamadas(url-s y demas)
         * Obtener personas: Metodo: GET, url: http://localhost:8080/apprest/api/personas/
-	    * Respuestas: 200 ,404
+             * Codigos: 200.	
         * Insertar persona: Metoro POST, url: http://localhost:8080/apprest/api/personas/
+             * Codigos: 201, 409, 400. 
         * Modificar persona: Metoro PUT, url: http://localhost:8080/apprest/api/personas/{id}
+             * Codigos: 200, 409, 400.
         * Borrar persona: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{id}
+             * Codigos: 200, 409, 400.
         * Asignar un curso: Metoro POST, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
+             * Codigos: 201, 409, 400.
         * Borrar un curso a un alumno: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
+             * Codigos: 200, 404.
        * Obtener cursos: Metodo: GET, url: http://localhost:8080/apprest/api/cursos/?filtro={String}
+          *   Codigos: 200, 404.            
        * Obtener noticias: Metodo: GET, url: http://localhost:8080/apprest/api/noticias/
+         * Codigos: 200, 404.             
 - Tags o Versiones
     * Version 1.0: Aqui podemos ver, añadir, modificar, y eliminar alumnos.
-    * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos.
+    * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos.  
+
  
   
