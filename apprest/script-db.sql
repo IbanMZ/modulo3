@@ -34,7 +34,7 @@ CREATE TABLE `curso` (
   `idCurso` int(11) NOT NULL AUTO_INCREMENT,
   `nombreCurso` varchar(100) NOT NULL,
   `fotoCurso` varchar(255) NOT NULL,
-  `precioCurso` varchar(100) NOT NULL,
+  `precioCurso` float NOT NULL,
   PRIMARY KEY (`idCurso`),
   UNIQUE KEY `curso_UN` (`nombreCurso`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -46,8 +46,34 @@ CREATE TABLE `curso` (
 
 LOCK TABLES `curso` WRITE;
 /*!40000 ALTER TABLE `curso` DISABLE KEYS */;
-INSERT INTO `curso` VALUES (1,'JavaEE','100','default_curso.png'),(2,'HTML5 y css3','40','default_curso.png'),(3,'JavaScript','50','default_curso.png');
+INSERT INTO `curso` VALUES (1,'JavaEE','default_curso.png',100),(2,'HTML5 y css3','default_curso.png',40),(3,'JavaScript','default_curso.png',50);
 /*!40000 ALTER TABLE `curso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `noticia`
+--
+
+DROP TABLE IF EXISTS `noticia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `noticia` (
+  `idNoticia` int(11) NOT NULL AUTO_INCREMENT,
+  `titularNoticia` varchar(100) NOT NULL,
+  `fechaNoticia` varchar(15) DEFAULT NULL,
+  `textoNoticia` mediumtext,
+  PRIMARY KEY (`idNoticia`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `noticia`
+--
+
+LOCK TABLES `noticia` WRITE;
+/*!40000 ALTER TABLE `noticia` DISABLE KEYS */;
+INSERT INTO `noticia` VALUES (1,'Carlota ha conseguido una matricula de honor','10/05/2019','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),(2,'Carlos ha conseguido una matricula de honor','10/06/2020','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),(3,'Juan deja el centro','15/05/2018','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),(4,'Amy gana OT','10/01/2000','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),(5,'Amy gana OT otra vez','15/01/2002','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.');
+/*!40000 ALTER TABLE `noticia` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -64,7 +90,7 @@ CREATE TABLE `persona` (
   `sexo` varchar(1) NOT NULL DEFAULT 'h',
   PRIMARY KEY (`id`),
   UNIQUE KEY `persona_UN` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +99,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'ander','avatar3.png','h'),(2,'mujer','avatar2.png','m'),(3,'vin disele','avatar4.png','h'),(4,'Charlotte','avatar1.png','m'),(5,'vin disel','avatar7.png','h');
+INSERT INTO `persona` VALUES (1,'ande','avatar3.png','h'),(2,'mujer','avatar2.png','m'),(3,'vin diselo','avatar4.png','h'),(4,'Carlota','avatar1.png','m');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +126,7 @@ CREATE TABLE `persona_has_curso` (
 
 LOCK TABLES `persona_has_curso` WRITE;
 /*!40000 ALTER TABLE `persona_has_curso` DISABLE KEYS */;
-INSERT INTO `persona_has_curso` VALUES (1,1),(1,2),(2,2),(1,3);
+INSERT INTO `persona_has_curso` VALUES (2,1),(1,2),(2,2),(3,2),(4,2),(1,3),(2,3),(3,3),(4,3);
 /*!40000 ALTER TABLE `persona_has_curso` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -113,7 +139,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-20 10:00:48
+-- Dump completed on 2020-04-23 19:17:47
 
 /*Custom Sql(Geuk egina)*/
 
