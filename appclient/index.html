@@ -40,55 +40,62 @@
                     
                 </ul>
             </div><!--"class="col-sm-6""-->
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <form name = "nombreForm">
-                    <div class="form-group">
-                        <label for="idForm">Id</label>
-                        <input type="text" class="form-control" id="idForm" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="nombreForm">Nombre</label>
-                        <input type="text" class="form-control" id="nombreForm">
-                    </div>
-                    <div class="form-group">
-                        <label for="avatarForm">Foto de Avatar</label>
-                        <input type="text" class="form-control" id="avatarForm" readonly="readonly">
-                    </div>
-                <!--No se ven en el firefox de Visual Studio, en los demas si se ven-->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sexoForm" id="h" value="h" checked>
-                        <label class="form-check-label" for="h">
-                        Hombre
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sexoForm" id="m" value="m">
-                        <label class="form-check-label" for="m">
-                        Mujer
-                        </label>
-                    </div>
-                    <div id="gallery">                    
-                    </div>
-                    <div class="botonera btn-group">
-                        <button id="botonNuevo" type="button" class="btn btn-primary" onclick="nuevo()">Nuevo</button>
-                        <button id="botonGuardar" type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
-                    </div>
-                    <div class="botonera btn-group">
-                        <button id="botonModificar" type="button" class="btn btn-primary" onclick="modificar()">Modificar</button>
-                        <button id="botonModal" type="button" class="btn btn-primary" >Añadir Curso</button>
-                    </div>
-                    <div class="botonera btn-group">
-                        <button id="botonCancelar" type="button" class="btn btn-primary" onclick="resetBotones()">Cancelar</button>  
-                    </div>
-                </form><!--"name="formNombre""-->
-                
-            </div><!--"class="col-sm-4""-->
-            <div class=col-sm-2>
-                <ul id="listaCurContrarados">
+                    <div class="form-row">
+                        <div class="col-sm-8">
+                        
+                                <div class="form-group">
+                                    <label for="idForm">Id</label>
+                                    <input type="text" class="form-control" id="idForm" readonly="readonly">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nombreForm">Nombre</label>
+                                    <input type="text" class="form-control" id="nombreForm">
+                                </div>
+                                <div class="form-group">
+                                    <label for="avatarForm">Foto de Avatar</label>
+                                    <input type="text" class="form-control" id="avatarForm" readonly="readonly">
+                                </div>
+                            <!--No se ven en el firefox de Visual Studio, en los demas si se ven-->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sexoForm" id="h" value="h" checked>
+                                    <label class="form-check-label" for="h">
+                                    Hombre
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sexoForm" id="m" value="m">
+                                    <label class="form-check-label" for="m">
+                                    Mujer
+                                    </label>
+                                </div>
+                                <div id="gallery">                    
+                                </div>
+                                <div class="botonera btn-group">
+                                    <button id="botonNuevo" type="button" class="btn btn-primary" onclick="nuevo()">Nuevo</button>
+                                    <button id="botonGuardar" type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
+                                </div>
+                                <div class="botonera btn-group">
+                                    <button id="botonModificar" type="button" class="btn btn-primary" onclick="modificar()">Modificar</button>
+                                    <button id="botonModal" type="button" class="btn btn-primary" >Añadir Curso</button>
+                                </div>
+                                <div class="botonera btn-group">
+                                    <button id="botonCancelar" type="button" class="btn btn-warning" onclick="resetBotones()">Cancelar</button>  
+                                </div>
+                            
+                            
+                        </div><!--"class="col-sm-8""-->
+                        <div class="col-sm-4">
+                            <ul id="listaCurContrarados">
 
-                </ul>
-            </div><!--"class="col-sm-2""-->
+                            </ul>
+                        </div><!--"class="col-sm-4""-->
+                    </div><!--"class="form-row"-->
+                </form><!--"name="nombreForm""-->
+            </div><!--"class="col-sm-6""-->
         </div><!--"class="row""-->
+        
         <div class="row" >
             <div class="col-sm-2"></div> 
             <div class="col-sm-8">

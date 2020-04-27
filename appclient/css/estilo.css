@@ -11,6 +11,9 @@
 .botonera{
     margin: 10px;
 }
+.row{
+  margin: 0 !important;
+}
 h1{
     text-align: center !important;
     background-color: darkcyan;
@@ -27,6 +30,13 @@ h1{
 }
 .modal-content{
   padding: 0 !important;
+}
+form{
+  box-sizing: content-box;
+    padding: 10px;
+    border:5px dotted darkcyan;
+    margin: 0 0 0 10px;
+    border-radius: 10px;
 }
 
 
