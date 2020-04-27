@@ -64,7 +64,8 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
          * Codigos: 200, 404.             
 - Tags o Versiones
     * Version 1.0: Aqui podemos ver, añadir, modificar, y eliminar alumnos.
-    * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos.  
+    * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos. 
+    * Version 2.1.1: Le sumamos una tabla de nocicias, añadimos un borde al formulario para que se diferencie del resto y solucionamos pequeños bugs.
 
  
   
