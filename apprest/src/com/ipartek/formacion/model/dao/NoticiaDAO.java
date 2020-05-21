@@ -99,4 +99,10 @@ public class NoticiaDAO implements IDAO<Noticia> {
 		return n;
 	}
 
+	@Override
+	public List<Noticia> getAllProfesor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

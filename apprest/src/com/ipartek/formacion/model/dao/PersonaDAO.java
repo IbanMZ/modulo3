@@ -29,7 +29,19 @@ public class PersonaDAO implements IDAO<Persona>{
 			" c.precioCurso ,\n" + 
 			" c.fotoCurso \n" + 
 			" from (persona p left join persona_has_curso pc on p.id = pc.id_persona)\n" + 
-			" left join curso c on pc.id_curso = c.idCurso LIMIT 500; ";
+			" left join curso c on pc.id_curso = c.idCurso where idrol = 1 LIMIT 500; ";
+	private static String SQL_GET_ALL_PROFESOR   = "select 	p.id ,\n" + 
+			" p.nombre,\n" + 
+			" p.avatar ,\n" + 
+			" p.sexo ,\n" + 
+			" pc.id_persona ,\n" + 
+			" pc.id_curso ,\n" + 
+			" c.idCurso ,\n" + 
+			" c.nombreCurso ,\n" + 
+			" c.precioCurso ,\n" + 
+			" c.fotoCurso \n" + 
+			" from (persona p left join persona_has_curso pc on p.id = pc.id_persona)\n" + 
+			" left join curso c on pc.id_curso = c.idCurso where idrol = 2 LIMIT 500; ";
 	private static String SQL_GET_BY_ID = "SELECT 	p.id ,\\n\" + \n" + 
 			"			\" p.nombre,\\n\" + \n" + 
 			"			\" p.avatar ,\\n\" + \n" + 
@@ -43,7 +55,7 @@ public class PersonaDAO implements IDAO<Persona>{
 			"			\" from (persona p left join persona_has_curso pc on p.id = pc.id_persona)\\n\" + \n" + 
 			"			\" left join curso c on pc.id_curso = c.idCurso where p.id = ?; ";
 	private static String SQL_DELETE    = "DELETE FROM persona WHERE id = ?; ";
-	private static String SQL_INSERT    = "INSERT INTO persona ( nombre, avatar, sexo) VALUES ( ?, ?, ? ); ";
+	private static String SQL_INSERT    = "INSERT INTO persona ( nombre, avatar, sexo, idrol) VALUES ( ?, ?, ?, ? ); ";
 	private static String SQL_UPDATE    = "UPDATE persona SET nombre = ?, avatar = ?,  sexo = ? WHERE id = ?; ";
 	private static String SQL_ASIGNAR_CURSO    = "INSERT INTO persona_has_curso (id_persona, id_curso) VALUES ( ?, ?); ";
 	private static String SQL_ELIMINAR_CURSO    = "DELETE FROM persona_has_curso WHERE id_persona = ? AND id_curso = ?;  ";
@@ -61,6 +73,34 @@ public class PersonaDAO implements IDAO<Persona>{
 	}
     
 	
+	@Override
+	public List<Persona> getAllProfesor() {
+
+		LOGGER.info("getAllProfesor");
+		
+		ArrayList<Persona> registros = new ArrayList<Persona>();
+		HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_PROFESOR);
+				ResultSet rs = pst.executeQuery();
+
+		) {
+
+			LOGGER.info(pst.toString());
+			
+			while( rs.next() ) {
+				//mandamos al mapper, y alli 
+				 mapper(rs, hmPersonas );				
+			}
+			
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Persona> ( hmPersonas.values() );
+	}
 	@Override
 	public List<Persona> getAll() {
 
@@ -157,15 +197,17 @@ public class PersonaDAO implements IDAO<Persona>{
 
 	@Override
 	public Persona insert(Persona personaInsertar) throws Exception, SQLException {
-		String sql = "INSERT INTO persona (nombre, avatar, sexo) values (?, ?, ?)";
+		
 		try (Connection con = ConnectionManager.getConnection()){
-				PreparedStatement pst = con.prepareStatement(sql);
+				PreparedStatement pst = con.prepareStatement(SQL_INSERT);
 				//executeQuery() para las select, executeUpdate() para las modificaciones
 				
 				
 				pst.setString(1, personaInsertar.getNombre());
 				pst.setString(2, personaInsertar.getAvatar());
 				pst.setString(3, personaInsertar.getSexo());
+				pst.setInt(4, personaInsertar.getIdRol() );
+				
 				
 				int rs = pst.executeUpdate();
 				//TODO rs erabili konprobaziñoren bat eitxeko
@@ -216,7 +258,7 @@ public class PersonaDAO implements IDAO<Persona>{
 			pst.setInt(2, idCurso);
 			LOGGER.info(pst.toString());
 			
-			//eliminamos la persona
+			
 			int affetedRows = pst.executeUpdate();	
 			if (affetedRows == 1) {
 				resul = true;

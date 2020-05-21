@@ -20,6 +20,8 @@ public class Persona {
 	
 	private ArrayList<Curso> cursos;
 	
+	private int idRol;
+	
 	public Persona() {
 		super();
 		this.id = 0;
@@ -27,59 +29,82 @@ public class Persona {
 		this.avatar = "avatar1.png";
 		this.sexo = "";
 		this.cursos = new ArrayList<Curso>();
+		this.idRol = 0;
 	}
-
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
-	public Persona(int id, String nombre, String avatar, String sexo) {		
-		this();
-		this.id = id;
-		this.nombre = nombre;
-		this.avatar = avatar;
-		this.sexo = sexo;
-		
-	}
-
 	
-	
+
 	
 	public int getId() {
 		return id;
 	}
 
+
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
+
 
 	public String getNombre() {
 		return nombre;
 	}
 
+
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+
 
 	public String getAvatar() {
 		return avatar;
 	}
 
+
+
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+
+
+	public String getSexo() {
+		return sexo;
+	}
+
+
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+
 
 	public ArrayList<Curso> getCursos() {
 		return cursos;
 	}
 
+
+
 	public void setCursos(ArrayList<Curso> cursos) {
 		this.cursos = cursos;
 	}
+
+
+
+	public int getIdRol() {
+		return idRol;
+	}
+
+
+
+	public void setIdRol(int idRol) {
+		this.idRol = idRol;
+	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -88,10 +113,13 @@ public class Persona {
 		result = prime * result + ((avatar == null) ? 0 : avatar.hashCode());
 		result = prime * result + ((cursos == null) ? 0 : cursos.hashCode());
 		result = prime * result + id;
+		result = prime * result + idRol;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -114,6 +142,8 @@ public class Persona {
 			return false;
 		if (id != other.id)
 			return false;
+		if (idRol != other.idRol)
+			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
@@ -127,10 +157,12 @@ public class Persona {
 		return true;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", nombre=" + nombre + ", avatar=" + avatar + ", sexo=" + sexo + ", cursos="
-				+ cursos + "]";
+				+ cursos + ", idRol=" + idRol + "]";
 	}
 }
 

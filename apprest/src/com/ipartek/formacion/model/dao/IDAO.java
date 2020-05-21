@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.ipartek.formacion.model.Curso;
+import com.ipartek.formacion.model.Persona;
 
 /**
  * Interfaz para las operaciones bÃ¡sicas de CRUD
@@ -14,6 +15,8 @@ import com.ipartek.formacion.model.Curso;
 public interface IDAO<P> {
 	
 	List<P> getAll();
+	
+	List<P> getAllProfesor();
 	
 	List<P> getFiltered(String filtro);
 	
@@ -52,7 +55,5 @@ public interface IDAO<P> {
 	 * @throws SQLException si existe alguna constraint
 	 */
 	P update(P pojo)throws Exception, SQLException;
-
-
 	
 }

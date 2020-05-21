@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -53,10 +54,24 @@ public class PersonaController {
 	}
 
 	@GET
-	public ArrayList<Persona> getAll() {	
+	public ArrayList<Persona> getAll(@QueryParam("rol") int idrol) {	
 		LOGGER.info("getAll");
-		//return personas;		-- personaDAO.getAll() es una list que es una interfaz, se puede castear a array, linkedlist...
-		ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
+		ArrayList<Persona> registros = null;
+		//TODO   endpoint/personas/?rol=1
+				//TODO   endpoint/personas/?rol=2
+				//TODO   endpoint/personas/?rol=alumnos
+				//TODO   endpoint/personas/?rol=profesores
+				
+				//TODO crear a mano el Rol para filtrar por Alumnos
+		if(idrol == 1) {
+			//return personas;		-- personaDAO.getAll() es una list que es una interfaz, se puede castear a array, linkedlist...
+			registros = (ArrayList<Persona>) personaDAO.getAll();
+		}else if(idrol == 2) {
+			registros = (ArrayList<Persona>) personaDAO.getAllProfesor();
+		}else {
+			registros = null;
+		}
+		
 		return registros;
 	}
 	
@@ -171,7 +186,7 @@ public class PersonaController {
 			response = Response.status(Status.CONFLICT).entity(responseBody).build();
 		}catch (Exception e) {			
 				responseBody.setInformacion(e.getMessage());
-				response = Response.status(Status.NOT_FOUND).entity(responseBody).build();
+ 				response = Response.status(Status.NOT_FOUND).entity(responseBody).build();
 		}
 
 		return response;

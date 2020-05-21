@@ -16,9 +16,9 @@ public class CursoDAO implements IDAO<Curso>{
 	
 	private static CursoDAO INSTANCE = null;
 	
-	private static String SQL_GET_ALL   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso ORDER BY idCurso  DESC LIMIT 500;";
-	private static String SQL_GET_ALL_FILTERED   = "SELECT idCurso , nombreCurso , fotoCurso , precioCurso FROM curso where nombreCurso LIKE ? ORDER BY idCurso  DESC LIMIT 100;";
-	private static String SQL_GET_BY_ID   = "SELECT idCurso, nombreCurso, precioCurso, fotoCurso FROM curso WHERE idCurso = ?; ";
+	private static String SQL_GET_ALL   = "SELECT c.idCurso , c.nombreCurso , c.fotoCurso , c.precioCurso, c.experto, p.nombre  FROM curso c left join persona p on c.experto = p.id   ORDER BY c.idCurso  DESC LIMIT 500;";
+	private static String SQL_GET_ALL_FILTERED   = "SELECT c.idCurso , c.nombreCurso , c.fotoCurso , c.precioCurso, c.experto, p.nombre  FROM curso c left join persona p on c.experto = p.id where nombreCurso LIKE ? ORDER BY idCurso  DESC LIMIT 100;";
+	private static String SQL_GET_BY_ID   = "SELECT c.idCurso , c.nombreCurso , c.fotoCurso , c.precioCurso, c.experto, p.nombre  FROM curso c left join persona p on c.experto = p.id WHERE c.idCurso = ?; ";
 	
 	private CursoDAO() {
 		super();		
@@ -136,11 +136,19 @@ public class CursoDAO implements IDAO<Curso>{
 	}
 	private Curso mapper( ResultSet rs ) throws SQLException {
 		Curso c = new Curso();
-		c.setIdCurso( rs.getInt("idCurso") );
-		c.setNombreCurso( rs.getString("nombreCurso"));
-		c.setFotoCurso( rs.getString("fotoCurso"));
-		c.setPrecio( rs.getFloat("precioCurso"));
+		c.setIdCurso( rs.getInt("c.idCurso") );
+		c.setNombreCurso( rs.getString("c.nombreCurso"));
+		c.setFotoCurso( rs.getString("c.fotoCurso"));
+		c.setPrecio( rs.getFloat("c.precioCurso"));
+		c.setExperto(rs.getInt("c.experto")); 
+		c.setExpNombre( rs.getString("p.nombre"));
 		return c;
+	}
+
+	@Override
+	public List<Curso> getAllProfesor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

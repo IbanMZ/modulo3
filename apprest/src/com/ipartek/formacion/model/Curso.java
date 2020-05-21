@@ -16,6 +16,9 @@ public class Curso {
 	@NotEmpty
 	private Float precio;
 	
+	int experto;
+	
+	String expNombre;
 	
 
 	public Curso() {
@@ -24,13 +27,17 @@ public class Curso {
 		this.nombreCurso = "";
 		this.fotoCurso = "";
 		this.precio = (float) 0;
+		this.experto = 0;
+		this.expNombre = "";
 	}
-
+	
+	
 
 
 	public int getIdCurso() {
 		return idCurso;
 	}
+
 
 
 
@@ -40,9 +47,11 @@ public class Curso {
 
 
 
+
 	public String getNombreCurso() {
 		return nombreCurso;
 	}
+
 
 
 
@@ -52,9 +61,11 @@ public class Curso {
 
 
 
+
 	public String getFotoCurso() {
 		return fotoCurso;
 	}
+
 
 
 
@@ -64,9 +75,11 @@ public class Curso {
 
 
 
+
 	public Float getPrecio() {
 		return precio;
 	}
+
 
 
 
@@ -76,16 +89,48 @@ public class Curso {
 
 
 
+
+	public int getExperto() {
+		return experto;
+	}
+
+
+
+
+	public void setExperto(int experto) {
+		this.experto = experto;
+	}
+
+
+
+
+	public String getExpNombre() {
+		return expNombre;
+	}
+
+
+
+
+	public void setExpNombre(String expNombre) {
+		this.expNombre = expNombre;
+	}
+
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((expNombre == null) ? 0 : expNombre.hashCode());
+		result = prime * result + experto;
 		result = prime * result + ((fotoCurso == null) ? 0 : fotoCurso.hashCode());
 		result = prime * result + idCurso;
 		result = prime * result + ((nombreCurso == null) ? 0 : nombreCurso.hashCode());
 		result = prime * result + ((precio == null) ? 0 : precio.hashCode());
 		return result;
 	}
+
 
 
 
@@ -98,6 +143,13 @@ public class Curso {
 		if (getClass() != obj.getClass())
 			return false;
 		Curso other = (Curso) obj;
+		if (expNombre == null) {
+			if (other.expNombre != null)
+				return false;
+		} else if (!expNombre.equals(other.expNombre))
+			return false;
+		if (experto != other.experto)
+			return false;
 		if (fotoCurso == null) {
 			if (other.fotoCurso != null)
 				return false;
@@ -120,12 +172,15 @@ public class Curso {
 
 
 
+
 	@Override
 	public String toString() {
 		return "Curso [idCurso=" + idCurso + ", nombreCurso=" + nombreCurso + ", fotoCurso=" + fotoCurso + ", precio="
-				+ precio + "]";
-	} 
+				+ precio + ", experto=" + experto + ", expNombre=" + expNombre + "]";
+	}
 
+
+	
 	
 	
 }

@@ -5,7 +5,7 @@ let cursos = [];
 let url = "";
 //Utilizalo para guardar los datos recividos de la petidion y poder utilizarlos cuando quieras
 //Este es para conectar al servidor
-const endPoint = 'http://localhost:8080/apprest/api/';
+const endPoint = 'http://localhost:8080/apprestmodulo3/api/';
 
     //Este url(endpoint) seria para llamar a datos de un archivo, simulando la conexion a base de datos
         //const endPoint = 'http://127.0.0.1:5500/js/data/personas.json';
@@ -56,11 +56,13 @@ function guardar(){
     let avatar = `${document.getElementById('avatarForm').value}`;
     //let sexo = document.getElementsByName('sexoForm').value;
     let sexo = document.nombreForm.sexoForm.value;
+    let rol = 1;
     let persona = {
         "id" : id,
         "nombre" : nombre,
         "avatar" : avatar,
-        "sexo"  : sexo
+        "sexo"  : sexo,
+        "idRol" : rol
     };//let persona
 
     console.debug('persona a guardar %o', persona);
@@ -172,6 +174,8 @@ function eliminar(idRecibido){
        
         pintarLista(  );
         limpiarSelectores();
+        limpiarSelectores();
+        resetBotones();
 
         })//
         .catch( error => {
@@ -207,7 +211,7 @@ function modificar(){
     .then( data => {
 
             // conseguir de nuevo todos los alumnos
-            url = endPoint + "personas/";
+            url = endPoint + "personas/?rol=1";
             ajax("GET", url, undefined)               
             .then( data => {
                     console.trace('promesa resolve'); 
@@ -241,7 +245,8 @@ function pintarLista(personasFiltradas){
    listaAlumnos.innerHTML = '';
    
   if(personasFiltradas == null){
-      url = endPoint + "personas/";
+      url = endPoint + "personas/?rol=1";
+      
         const promesa = ajax("GET", url, undefined);
         promesa
         .then( data => {
@@ -276,10 +281,10 @@ function pintarLista(personasFiltradas){
                 let insertaralumno = document.getElementById('listaAlumnos');
                 
                 
-                listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre}
-                                                Cursos: ${nCursos}
-                                                <i class="fas fa-pencil-ruler" onclick="seleccionar(${alumno.id})"></i>
-                                                <i class="fas fa-trash" onclick="eliminar(${alumno.id})"></i>
+                listaAlumnos.innerHTML += `<li class="list-group-item"><img src="img/${alumno.avatar}">${alumno.nombre} 
+                                                <i class="fas fa-trash aflotar" onclick="eliminar(${alumno.id})"></i>                                
+                                                <i class="fas fa-pencil-ruler aflotar" onclick="seleccionar(${alumno.id})"></i>
+                                                <i class="aflotar">Cursos: ${nCursos}</i>
                                             </li>`;                                 
         }
     }
@@ -449,7 +454,7 @@ function pintarModal(cursoFiltrado){
         url = endPoint + "cursos/?filtro=" + cursoFiltrado;
     }
 
-    listaCursos.innerHTML = '';
+    tablaCursos.innerHTML = '';
    
   
         const promesa = ajax("GET", url, undefined);
@@ -463,11 +468,18 @@ function pintarModal(cursoFiltrado){
                     let insertarModal = document.getElementById('listaModal');
                     
                     ///${curso.fotoCurso} falla, tamaño? mañana mira codigo de ander
-                    listaCursos.innerHTML += `<li class="list-group-item">
-                                            <img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}
+                    tablaCursos.innerHTML += `<tr>
+                                                <td><img src="img/${curso.fotoCurso}" alt="imagen" ></img></td>
+                                                <td>${curso.nombreCurso}</td>
+                                                <td>${curso.precio}€</td>
+                                                <td>${curso.expNombre}</td>
+                                                <td><button type="button" class="btn btn-secondary aflotar" onClick="asignarCurso( 0, ${curso.idCurso})">Asignar</button></td>
+                                            </tr>`;
+                                            /*`<li class="list-group-item">
+                                            <img src="img/${curso.fotoCurso}" alt="imagen">-${curso.nombreCurso}-${curso.precio}€- Profesor: ${curso.expNombre}
                                             
                                             <button type="button" class="btn btn-secondary aflotar" onClick="asignarCurso( 0, ${curso.idCurso})">Asignar</button>
-                                            </li>`;
+                                            </li>`;*/
                                             //<span onClick="asignarCurso( 0, ${curso.idCurso})" >[x] Asignar</span>                                 
             }
         }).catch( error => {
@@ -543,7 +555,7 @@ function pintarNoticias(){
             console.trace('promesa resolve'); 
             cuadroNoticias.innerHTML = '';
             noticias = data;
-            for(let i=0; i < personas.length; i++ ){
+            for(let i=0; i < noticias.length; i++ ){
                 
                 let noticia = noticias[i];
                  
