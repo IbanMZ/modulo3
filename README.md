@@ -2,7 +2,7 @@
 ### Aplicacion para administrar los alumnos de una academia y los cursos a los que están apuntados.
 
 Este proyecto es una aplicación para administrar los alumnos de una academia y los cursos a los que están apuntados.
-En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las funcionalidades de los cursos.  
+En la version 1 tenemos la parte de alumnos, en la version 2 le añanimos las funcionalidades de los cursos y noticias y en la version 3 añadimos otra pagina para administrar a los profesores.  
 
 ![Pantalla principal](https://github.com/IbanMZ/modulo3/blob/master/appclient/img/detalleAlumno.png)
 
@@ -11,9 +11,11 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
     
       La parte de cliente tiene dos partes principales. A la izquierda, esta el listado de alumnos. En el vemos su avatar, el nombre, a cuantos cursos está apuntado, y los botones de seleccionar y borrar el alumno. Ten en cuenta que un alumno con cursos no se puede borrar. En la parte inferior hay una tabla con noticias. 
       
-      A la derecha, esta la parte de detalles, tambien dividido en dos partes. Al principio veremos un formulario vacio con unos botones, nuevo, modificar, guardar , cancelar y añadir curso. Si clickamos en nuevo da la opcion de meter un alumno nuevo, y de guardarlo con el boton guardar. Si utilizamos el boton seleccionar de la lista de alumnos(parte izquierda de la aplicación, aqui se mostraran los datos del alumno en el formulario y a la derecha de este, si el alumno esta apuntado a cursos, tambien se mostraran. En este punto puedes usar el boton Asignar Curso para abrir una ventana modal y asignar un curso,borrrar los cursos en los que está apuntando clicando la palelera al lado del propio curso, o modificar los datos del alumno. Hay que pulsar el boton modificar para guardar los cambion en el formulario. En la ventana modar, mencionada antes, se pueden ver los cursos exitentes, y filtrartol por nombre, siempre que se metan tres o  más letras. Solo se podran asignar cursos que no esten asignados al alumno en cuestion. 
+      A la derecha, esta la parte de detalles, tambien dividido en dos partes. Al principio veremos un formulario vacio con unos botones, nuevo, modificar, guardar , cancelar y añadir curso. Si clickamos en nuevo da la opcion de meter un alumno nuevo, y de guardarlo con el boton guardar. Si utilizamos el boton seleccionar de la lista de alumnos(parte izquierda de la aplicación, aqui se mostraran los datos del alumno en el formulario y a la derecha de este, si el alumno esta apuntado a cursos, tambien se mostraran. En este punto puedes usar el boton Asignar Curso para abrir una ventana modal y asignar un curso,borrrar los cursos en los que está apuntando clicando la palelera al lado del propio curso, o modificar los datos del alumno. Hay que pulsar el boton modificar para guardar los cambion en el formulario. En la ventana modar, mencionada antes, se pueden ver los cursos exitentes, y filtrartol por nombre, siempre que se metan tres o  más letras. Solo se podran asignar cursos que no esten asignados al alumno en cuestion. En la parte inferior tiene una seccion de noticias.
       
       En la caberera, tenemos un buscador por nombre y un selector de sexos.  
+      
+     La pagina de profesores es igual que la de clientes, salvo que no tiene seccion de noticias.
       
     * Tecnología usada  
     
@@ -46,26 +48,43 @@ En la version 1 tenemos la parte de alumnos y en la parte 2 le añanimos las fun
 		  * password="o8lAkaNtX91xMUcV"   
     
     * Detalle API rest con llamadas(url-s y demas)
-        * Obtener personas: Metodo: GET, url: http://localhost:8080/apprest/api/personas/
+        * Obtener alumnos: Metodo: GET, url: http://localhost:8080/apprest/api/personas/?rol=1"
              * Codigos: 200.	
-        * Insertar persona: Metoro POST, url: http://localhost:8080/apprest/api/personas/
+        * Insertar alumnos: Metoro POST, url: http://localhost:8080/apprest/api/personas/
              * Codigos: 201, 409, 400. 
-        * Modificar persona: Metoro PUT, url: http://localhost:8080/apprest/api/personas/{id}
+        * Modificar alumnos: Metoro PUT, url: http://localhost:8080/apprest/api/personas/{id}
              * Codigos: 200, 409, 400.
-        * Borrar persona: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{id}
+        * Borrar alumnos: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{id}
              * Codigos: 200, 409, 400.
         * Asignar un curso: Metoro POST, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
              * Codigos: 201, 409, 400.
         * Borrar un curso a un alumno: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
              * Codigos: 200, 404.
        * Obtener cursos: Metodo: GET, url: http://localhost:8080/apprest/api/cursos/?filtro={String}
-          *   Codigos: 200, 404.            
+          *   Codigos: 200, 404.  
+       * Obtener noticias: Metodo: GET, url: http://localhost:8080/apprest/api/noticias/"
+          * Codigos: 200.
+        * Obtener profesores: Metodo: GET, url: http://localhost:8080/apprest/api/personas/?rol=2"
+             * Codigos: 200.	
+        * Insertar profesores: Metoro POST, url: http://localhost:8080/apprest/api/personas/
+             * Codigos: 201, 409, 400. 
+        * Modificar profesores: Metoro PUT, url: http://localhost:8080/apprest/api/personas/{id}
+             * Codigos: 200, 409, 400.
+        * Borrar profesores: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{id}
+             * Codigos: 200, 409, 400.
+        * Asignar un curso: Metoro POST, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
+             * Codigos: 201, 409, 400.
+        * Borrar un curso a un profesor: Metoro DELETE, url: http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso}
+             * Codigos: 200, 404.
+       * Obtener cursos: Metodo: GET, url: http://localhost:8080/apprest/api/cursos/?filtro={String}
+          *   Codigos: 200, 404. 
        * Obtener noticias: Metodo: GET, url: http://localhost:8080/apprest/api/noticias/
          * Codigos: 200, 404.             
 - Tags o Versiones
     * Version 1.0: Aqui podemos ver, añadir, modificar, y eliminar alumnos.
     * Version 2.0.1: Aqui, ademas de todo lo que se podía hacer en la version 1.0, implementamos el contador de cursos para cada alumno. Ademas, al seleccionar un alumno podemos ver los cursos que tiene, borrarlos o añadirle nuevos. 
     * Version 2.1.1: Le sumamos una tabla de nocicias, añadimos un borde al formulario para que se diferencie del resto y solucionamos pequeños bugs.
+    * Version 3.0 : Añadimos la pagina de profesores.
 
  
   
